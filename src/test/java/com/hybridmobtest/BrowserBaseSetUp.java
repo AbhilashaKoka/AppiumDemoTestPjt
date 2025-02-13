@@ -1,52 +1,46 @@
 package com.hybridmobtest;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Random;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+
+
 
 public class BrowserBaseSetUp {
-	 static AndroidDriver<MobileElement> driver;
+	  AndroidDriver<MobileElement> driver;
 	 static AppiumDriverLocalService service=null;
-	Random ran=new Random();
+	 Random ran=new Random();
+
+
 
 
 @BeforeSuite
-	public AndroidDriver<MobileElement> getMobileDriver()
-	{
-		try {
-			if(driver == null) driver = createAndroidDriver();
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-
-		}
+	public AndroidDriver<MobileElement> getMobileDriver() throws MalformedURLException {
+		driver = createAndroidDriver();
 		return driver;
 	}
 
 
-	private AndroidDriver<MobileElement> createAndroidDriver()
-	{
 
-		DesiredCapabilities capabilities = setCapabilitiesForAndroid();
-		try {
-			if (service.isRunning() == true) {
-				execKill(1L);
-				service.start();
-			}
-			driver = new AndroidDriver<>(service, capabilities);
-		}
-		catch (Exception ex)
-		{
-			ex.getStackTrace();
-		}
+	@AfterSuite
+	public void closeAndroidDriver(){
+	stopServer();
+	}
+
+
+
+	private AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
+		startServer();
+			DesiredCapabilities capabilities = setCapabilitiesForAndroid();
+			driver = new AndroidDriver<>(service.getUrl(), capabilities);
 		return driver;
 	}
 
@@ -59,21 +53,6 @@ public class BrowserBaseSetUp {
 			cap.setCapability("platformName", "Android");
 			cap.setCapability("platformVersion", "15");
 			cap.setCapability("automationName","UIAutomator2");
-			cap.setCapability("autoLaunch","true");
-			cap.setCapability("nativeWebScreenshot", true);
-			cap.setCapability("chromedriverUseSystemExecutable", true);
-			cap.setCapability("autoGrantPermissions", true);
-			cap.setCapability("language" ,"en");
-			cap.setCapability("locale" ,"IN");
-			cap.setCapability ("appPackage","com.google.android.calculator");
-			cap.setCapability("appActivity","com.android.calculator2.Calculator");
-			cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 100);
-			cap.setCapability(MobileCapabilityType.AUTO_WEBVIEW, true);
-			cap.setCapability(MobileCapabilityType.FORCE_MJSONWP, true);
-			cap.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-			cap.setCapability(AndroidMobileCapabilityType.NO_SIGN, true);
-			cap.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, ran.nextInt(99)+8200);
-			cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 100);
 			cap.setCapability("browserName", "CHROME");
 			cap.setCapability("appium:ChromeOptions", ImmutableMap.of("w3c",false));
 			ChromeOptions chromeOptions = new ChromeOptions();
@@ -90,27 +69,6 @@ public class BrowserBaseSetUp {
 
 
 
-
-
-@AfterSuite
-	public void closeAndroidDriver()
-	{
-
-		try {
-			if(service.isRunning()==true)
-			{
-				execKill(1L);
-				service.stop();
-			}
-		}
-		catch(Exception ex)
-		{
-
-			ex.getStackTrace();
-		}
-	}
-
-
 public static void execKill(long minutes) throws InterruptedException{
 		try{
 			Thread.sleep(minutes*60L*1000L);
@@ -121,4 +79,20 @@ public static void execKill(long minutes) throws InterruptedException{
 			io.printStackTrace();
 		}
 	}
-}
+
+
+		public void startServer() {
+			service = new AppiumServiceBuilder().usingAnyFreePort().build();
+			service.start();
+		}
+
+		public void stopServer() {
+			if (service != null) {
+				service.stop();
+			}
+		}
+
+
+
+	}
+

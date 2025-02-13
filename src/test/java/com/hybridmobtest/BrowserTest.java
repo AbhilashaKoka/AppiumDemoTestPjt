@@ -2,14 +2,10 @@ package com.hybridmobtest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
-import java.net.MalformedURLException;
 
 
-public class BrowserTest extends BrowserBaseSetUp {
 
-
-	public BrowserTest() throws MalformedURLException {
-	}
+public class BrowserTest extends BrowserBaseSetUp{
 
 	@Test
 	     public void searchgooglepage() {
