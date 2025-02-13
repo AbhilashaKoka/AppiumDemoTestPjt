@@ -2,7 +2,7 @@
   "capabilities": [
     {
       "browserName": "Android",
-      "version": "11.0",
+      "version": "15",
       "maxInstances": 1,
       "platformName": "ANDROID",
       "deviceName": "emulator-5554"
