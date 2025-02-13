@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/Abhilasha/Documents/DOCUMENT/StudyDocumentFolder/IDE/IdeaProjects/mobdemoprjt">
+        <classes>
+<!--            <class name="com.hybridmobtest.BrowserTest">-->
+<!--                <methods>-->
+<!--                    <include name="searchgooglepage"/>-->
+<!--                    <include name="loginTest"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--            <class name="com.nativedesktopapptest.CalculatorTest">-->
+<!--                <methods>-->
+<!--                    <include name="Addition"/>-->
+<!--                    <include name="Combination"/>-->
+<!--                    <include name="Division"/>-->
+<!--                    <include name="Multiplication"/>-->
+<!--                    <include name="Subtraction"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+            <class name="com.nativemobtest.NativeTest">
+                <methods>
+                    <include name="test1"/>
+                    <include name="Sum"/>
+                    <include name="Test4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
