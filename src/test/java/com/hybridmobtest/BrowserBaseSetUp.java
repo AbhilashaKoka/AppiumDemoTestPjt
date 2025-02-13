@@ -8,15 +8,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Random;
+
 
 public class BrowserBaseSetUp {
 	AndroidDriver<MobileElement> driver;
 	static AppiumDriverLocalService service = null;
-	Random ran = new Random();
+
 
 	@BeforeSuite
 	public AndroidDriver<MobileElement> getMobileDriver() throws MalformedURLException {
