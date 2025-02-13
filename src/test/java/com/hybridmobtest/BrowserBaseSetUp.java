@@ -10,6 +10,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class BrowserBaseSetUp {
@@ -18,10 +19,8 @@ public class BrowserBaseSetUp {
 
 
 	@BeforeSuite
-	public AndroidDriver<MobileElement> getMobileDriver() throws MalformedURLException {
+	public AndroidDriver<MobileElement> getMobileDriver() throws InterruptedException, MalformedURLException {
 		driver = createAndroidDriver();
-		// Navigate to the desired URL
-		driver.get("http://example.com");
 		return driver;
 	}
 
@@ -33,10 +32,11 @@ public class BrowserBaseSetUp {
 		}
 	}
 
-	private AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
+	private AndroidDriver<MobileElement> createAndroidDriver() throws InterruptedException, MalformedURLException {
+		//execKill(1L);
 		startServer();
 		DesiredCapabilities capabilities = setCapabilitiesForAndroid();
-		driver = new AndroidDriver<>(service.getUrl(), capabilities);
+		driver = new AndroidDriver<>(new URL(service.getUrl().toString()), capabilities); // Use the correct URL format
 		return driver;
 	}
 
@@ -69,7 +69,11 @@ public class BrowserBaseSetUp {
 	}
 
 	public void startServer() {
-		service = new AppiumServiceBuilder().usingAnyFreePort().build();
+		service = new AppiumServiceBuilder()
+				.withArgument(() -> "--use-drivers", "uiautomator2,chromedriver")
+				.withArgument(() -> "--use-plugins", "execute-driver") // Custom argument for plugins
+				.usingAnyFreePort()
+				.build();
 		service.start();
 	}
 
