@@ -1,9 +1,7 @@
 {
-  "deviceName":"moto g(7)",
-  "udid":"ZF6224BG9B",
-  "platformVersion": "10",
-  "platformName":"Android",
-  "appPackage": "com.google.android.calculator",
-  "appActivity": "com.android.calculator2.Calculator",
-  "noReset":"true"
+ "deviceName":"emulator-5554",
+"platformName":"Android",
+  "platformVersion": "15",
+"automationName":"UIAutomator2",
+  "browserName": "CHROME"
 }
