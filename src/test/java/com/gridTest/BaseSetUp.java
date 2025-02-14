@@ -1,5 +1,4 @@
 package com.gridTest;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -13,7 +12,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 
 public class BaseSetUp {
-  public  static String jarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
+  public  static String gridJarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
     public static WebDriver driver;
 
     public static String nodeConfigPath="src/test/resources/config/nodeConfig.json";
@@ -29,7 +28,7 @@ public class BaseSetUp {
 
         try{
 
-            startSeleniumGridServer(jarPath,servername);
+            startSeleniumGridServer(gridJarPath,servername);
            // startappiumServer(nodeConfigPath);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
