@@ -73,7 +73,7 @@ public class BrowserBaseSetUp {
 		service = new AppiumServiceBuilder()
 				.withArgument(() -> "--use-drivers", "uiautomator2,chromedriver")
 				.withArgument(() -> "--use-plugins", "execute-driver") // Custom argument for plugins
-				.usingAnyFreePort()
+//				.usingAnyFreePort()
 				.build();
 		service.start();
 	}
