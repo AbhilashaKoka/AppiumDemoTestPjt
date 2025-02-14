@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 
 public class BaseSetUp {
-  public  static String gridJarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
+    public  static String gridJarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
     public static WebDriver driver;
 
     public static String nodeConfigPath="src/test/resources/config/nodeConfig.json";
@@ -48,13 +48,10 @@ public class BaseSetUp {
         else {
             throw new Error("Browser configuration is not defined!!");
         }
-
-    }
-
+ }
 
 
-
-    @AfterSuite
+ @AfterSuite
     public static void tearDown() throws InterruptedException {
         driver.quit();
     }
@@ -125,13 +122,7 @@ public class BaseSetUp {
     }
 
 
-
-
-
-
-
-
-    private static void logServerOutput(Process process) {
+ private static void logServerOutput(Process process) {
         new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String line;
@@ -145,10 +136,7 @@ public class BaseSetUp {
     }
 
 
-
-
-
-    public static String  getLocalHostAddress(){
+  public static String  getLocalHostAddress(){
         String str=null;
         try {
             InetAddress localAddress = InetAddress.getLocalHost();
@@ -175,11 +163,7 @@ public class BaseSetUp {
         return port;
     }
 
-
-
-
-
-    private static void killExistingJavaProcesses() throws IOException {
+ private static void killExistingJavaProcesses() throws IOException {
         ProcessBuilder processBuilder = new ProcessBuilder("tasklist");
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
