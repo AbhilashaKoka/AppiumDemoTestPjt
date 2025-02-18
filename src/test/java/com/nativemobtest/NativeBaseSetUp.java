@@ -29,11 +29,7 @@ public class NativeBaseSetUp {
 
 
 
-
-
-
-
-    @AfterSuite
+  @AfterSuite
     public void closeAndroidDriver() {
         stopServer();
         if (driver != null) {
@@ -85,14 +81,13 @@ public class NativeBaseSetUp {
 
     public void startServer() {
         AppiumDriverLocalService service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-                .withAppiumJS(new File("/usr/local/bin/appium"))
-                .usingDriverExecutable(new File("/usr/local/bin/node"))
+                .withAppiumJS(new File("C:\\ApplicationPath\\appium\\node_modules\\appium\\build\\lib\\main.js"))
+                .usingDriverExecutable(new File("C:\\ApplicationPath\\Node\\node.exe"))
                 .usingPort(4723)
                 .withLogFile(new File("AppiumLog.txt"))
                 .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
                 .withArgument(GeneralServerFlag.LOG_LEVEL, "WARN")
         );
-
             service.start();
             System.out.println("Appium server started successfully.");
             // Your test code here

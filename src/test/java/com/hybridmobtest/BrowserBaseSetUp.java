@@ -35,7 +35,7 @@ public class BrowserBaseSetUp {
 	private AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
 		//execKill(1L);
 		startServer();
-		System.setProperty("webdriver.chrome.driver", "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Abhilasha\\node_modules\\appium-chromedriver");
 		DesiredCapabilities capabilities = setCapabilitiesForAndroid();
 		driver = new AndroidDriver<>(new URL(service.getUrl().toString()), capabilities); // Use the correct URL format
 		return driver;

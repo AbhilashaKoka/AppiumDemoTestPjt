@@ -19,9 +19,7 @@ public class NativeTest extends NativeBaseSetUp {
         equal.click();
         String result=space.getText();
         System.out.println("Number sum result is : " + result);
-
-
-    }
+  }
 
     @Test
     public void Sum(){
@@ -50,6 +48,4 @@ public class NativeTest extends NativeBaseSetUp {
             System.out.println("Result: " + result.getText());
             }
     }
-
-
 }
