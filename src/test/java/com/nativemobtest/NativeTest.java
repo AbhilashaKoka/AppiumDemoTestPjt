@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 
-public class NativeTest extends NativeBaseSetUp {
+public class  NativeTest extends NativeBaseSetUp {
 
     @Test
     public void test1(){

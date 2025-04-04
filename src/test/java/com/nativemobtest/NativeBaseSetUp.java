@@ -8,7 +8,6 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -79,10 +78,13 @@ public class NativeBaseSetUp {
         }
     }
 
+   // "C:\ApplicationPath\appium\appium.cmd"
+
     public void startServer() {
         AppiumDriverLocalService service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-                .withAppiumJS(new File("C:\\ApplicationPath\\appium\\node_modules\\appium\\build\\lib\\main.js"))
                 .usingDriverExecutable(new File("C:\\ApplicationPath\\Node\\node.exe"))
+                .withAppiumJS(new File("C:\\ApplicationPath\\appium\\node_modules\\appium"))
+                .withIPAddress("0.0.0.0")
                 .usingPort(4723)
                 .withLogFile(new File("AppiumLog.txt"))
                 .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
