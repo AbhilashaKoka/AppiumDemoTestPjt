@@ -1,5 +1,4 @@
 package org.example.utility.locatorUtility;
-
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.WebDriver;

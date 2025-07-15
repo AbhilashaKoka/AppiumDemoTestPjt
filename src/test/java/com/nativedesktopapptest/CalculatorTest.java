@@ -1,6 +1,4 @@
 package com.nativedesktopapptest;
-
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
