@@ -1,6 +1,6 @@
 {
   "platformName": "Android",
-  "platformVersion": "15",
+  "platformVersion": "10",
   "deviceName": "emulator-5554",
   "appPackage": "com.google.android.calculator",
   "appActivity": "com.android.calculator2.Calculator"

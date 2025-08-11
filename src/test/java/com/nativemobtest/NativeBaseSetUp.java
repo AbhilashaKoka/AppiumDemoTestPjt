@@ -51,14 +51,11 @@ public class NativeBaseSetUp {
     }
 
 
-
-
-
  private static DesiredCapabilities getDesiredCapabilities() {
   DesiredCapabilities capabilities = new DesiredCapabilities();
      capabilities.setCapability("deviceName", "emulator-5554");
      capabilities.setCapability("platformName", "Android");
-     capabilities.setCapability("platformVersion", "15");
+     capabilities.setCapability("platformVersion", "10");
      capabilities.setCapability("appPackage", "com.google.android.calculator");
      capabilities.setCapability("appActivity", "com.android.calculator2.Calculator");
      capabilities.setCapability("noReset","true");
@@ -67,9 +64,7 @@ public class NativeBaseSetUp {
 
 
 
-
-
-    public static void execKill(long minutes) throws InterruptedException {
+  public static void execKill(long minutes) throws InterruptedException {
         try {
             Thread.sleep(minutes * 60L * 1000L);
             Runtime.getRuntime().exec("cmd /c TASKKILL /F /IM node.exe");
@@ -82,8 +77,8 @@ public class NativeBaseSetUp {
 
     public void startServer() {
         AppiumDriverLocalService service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-                .usingDriverExecutable(new File("C:\\ApplicationPath\\Node\\node.exe"))
-                .withAppiumJS(new File("C:\\ApplicationPath\\appium\\node_modules\\appium"))
+                .usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe"))
+                .withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\appium"))
                 .withIPAddress("0.0.0.0")
                 .usingPort(4723)
                 .withLogFile(new File("AppiumLog.txt"))

@@ -1,7 +1,7 @@
 {
  "deviceName":"emulator-5554",
 "platformName":"Android",
-  "platformVersion": "15",
+  "platformVersion": "10",
 "automationName":"UIAutomator2",
   "browserName": "CHROME"
 }

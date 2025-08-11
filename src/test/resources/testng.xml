@@ -3,12 +3,12 @@
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true"  name="test">
         <classes>
-<!--            <class name="com.hybridmobtest.BrowserTest">-->
-<!--                <methods>-->
-<!--                    <include name="searchgooglepage"/>-->
-<!--                    <include name="loginTest"/>-->
-<!--                </methods>-->
-<!--            </class>-->
+            <class name="com.hybridmobtest.BrowserTest">
+                <methods>
+                    <include name="searchgooglepage"/>
+                    <include name="loginTest"/>
+                </methods>
+            </class>
 <!--            <class name="com.nativedesktopapptest.CalculatorTest">-->
 <!--                <methods>-->
 <!--                    <include name="Addition"/>-->
@@ -18,13 +18,13 @@
 <!--                    <include name="Subtraction"/>-->
 <!--                </methods>-->
 <!--            </class>-->
-            <class name="com.nativemobtest.NativeTest">
-                <methods>
-                    <include name="test1"/>
-                    <include name="Sum"/>
-                    <include name="Test4"/>
-                </methods>
-            </class>
+<!--            <class name="com.nativemobtest.NativeTest">-->
+<!--                <methods>-->
+<!--                    <include name="test1"/>-->
+<!--                    <include name="Sum"/>-->
+<!--                    <include name="Test4"/>-->
+<!--                </methods>-->
+<!--            </class>-->
         </classes>
     </test>
 </suite>

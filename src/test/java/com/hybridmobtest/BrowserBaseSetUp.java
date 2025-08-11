@@ -35,11 +35,12 @@ public class BrowserBaseSetUp {
 	private AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
 		//execKill(1L);
 		startServer();
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Abhilasha\\node_modules\\appium-chromedriver");
+		//System.setProperty("webdriver.chrome.driver", "C:\\ApplicationPath\\appium\\node_modules\\appium\\chromedriver.exe");
 		DesiredCapabilities capabilities = setCapabilitiesForAndroid();
 		driver = new AndroidDriver<>(new URL(service.getUrl().toString()), capabilities); // Use the correct URL format
 		return driver;
 	}
+
 
 	private DesiredCapabilities setCapabilitiesForAndroid() {
 		try {
@@ -47,7 +48,7 @@ public class BrowserBaseSetUp {
 			DesiredCapabilities cap = new DesiredCapabilities();
 			cap.setCapability("deviceName", "emulator-5554");
 			cap.setCapability("platformName", "Android");
-			cap.setCapability("platformVersion", "15");
+			cap.setCapability("platformVersion", "10");
 			cap.setCapability("automationName", "UIAutomator2");
 			cap.setCapability("browserName", "CHROME");
 			cap.setCapability("appium:ChromeOptions", ImmutableMap.of("w3c", false));
@@ -71,7 +72,7 @@ public class BrowserBaseSetUp {
 
 	public void startServer() {
 		service = new AppiumServiceBuilder()
-				.withArgument(() -> "--use-drivers", "uiautomator2,chromedriver")
+				.withArgument(() -> "--use-drivers", "uiautomator2,chromium")
 				.withArgument(() -> "--use-plugins", "execute-driver") // Custom argument for plugins
 //				.usingAnyFreePort()
 				.build();
@@ -83,4 +84,6 @@ public class BrowserBaseSetUp {
 			service.stop();
 		}
 	}
+
+
 }
