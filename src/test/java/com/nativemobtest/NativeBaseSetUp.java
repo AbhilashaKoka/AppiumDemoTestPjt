@@ -1,101 +1,75 @@
 package com.nativemobtest;
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 
+
+
 public class NativeBaseSetUp {
-     AndroidDriver<MobileElement> driver ;
-    // AppiumDriver<MobileElement> driver;
-     static AppiumDriverLocalService service = null;
+    static AndroidDriver<MobileElement> driver ;
+     private static AppiumDriverLocalService service;
 
 
-    @BeforeSuite
+    @BeforeMethod
     public AndroidDriver<MobileElement> getMobileDriver() throws  MalformedURLException {
         driver = createAndroidDriver();
         return driver;
     }
 
 
-  @AfterSuite
-    public void closeAndroidDriver() {
-        stopServer();
-        if (driver != null) {
-            driver.quit();
+    @AfterMethod
+    public static void stopAppiumServer() {
+        if (service != null && service.isRunning()) {
+            service.stop();
+            System.out.println("Appium server stopped.");
         }
     }
 
 
-
-    private AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
-        //execKill(1L);
+    private  static  AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
         startServer();
         try {
             DesiredCapabilities capabilities = getDesiredCapabilities();
-            driver = new AndroidDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
+            driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         }
         catch (MalformedURLException e) {
             e.printStackTrace();
-        }  return driver;
+        }
+return driver;
     }
 
 
- private static DesiredCapabilities getDesiredCapabilities() {
+    private static void startServer() {
+        AppiumServiceBuilder builder = new AppiumServiceBuilder();
+        builder.withIPAddress("127.0.0.1"); // Or use .usingAnyFreePort()
+        builder.usingPort(4723); // Or use .usingAnyFreePort()
+        builder.withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js")); // Replace with your Appium path
+        // builder.withArgument(BASEPATH, "/wd/hub"); // Standard base path
+        // Add other server arguments as needed, e.g., builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
+        service = AppiumDriverLocalService.buildService(builder);
+        service.start();
+        System.out.println("Appium server started at: " + service.getUrl());
+    }
+
+
+    private static DesiredCapabilities getDesiredCapabilities() {
   DesiredCapabilities capabilities = new DesiredCapabilities();
      capabilities.setCapability("deviceName", "emulator-5554");
      capabilities.setCapability("platformName", "Android");
      capabilities.setCapability("platformVersion", "10");
      capabilities.setCapability("appPackage", "com.google.android.calculator");
      capabilities.setCapability("appActivity", "com.android.calculator2.Calculator");
-     capabilities.setCapability("noReset","true");
-     return capabilities;
+      return capabilities;
  }
 
-
-
-  public static void execKill(long minutes) throws InterruptedException {
-        try {
-            Thread.sleep(minutes * 60L * 1000L);
-            Runtime.getRuntime().exec("cmd /c TASKKILL /F /IM node.exe");
-        } catch (IOException io) {
-            io.printStackTrace();
-        }
-    }
-
-
-// .withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
-
-    public void startServer() {
-         service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-                .usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe"))
-                .withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\appium"))
-                .withIPAddress("0.0.0.0")
-                .usingPort(4723)
-                .withLogFile(new File("AppiumLog.txt"))
-                .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
-                .withArgument(GeneralServerFlag.LOG_LEVEL, "WARN")
-        );
-            service.start();
-            System.out.println("Appium server started successfully.");
-            // Your test code here
-
-    }
-
-    public void stopServer() {
-        if (service != null) {
-            service.stop();
-        }
-    }
 
 }
 

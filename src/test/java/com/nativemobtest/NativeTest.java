@@ -19,6 +19,7 @@ public class  NativeTest extends NativeBaseSetUp {
         equal.click();
         String result=space.getText();
         System.out.println("Number sum result is : " + result);
+
   }
 
     @Test
@@ -30,6 +31,7 @@ public class  NativeTest extends NativeBaseSetUp {
         driver.findElement(By.name("=")).click();
         String result = driver.findElement(By.className("android.widget.EditText")).getText();
         System.out.println("Number sum result is : " + result);
+
     }
 
 
