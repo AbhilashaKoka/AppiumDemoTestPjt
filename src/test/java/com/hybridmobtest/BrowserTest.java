@@ -16,9 +16,9 @@ public class BrowserTest extends BrowserBaseSetUp {
 		   System.out.println("Test Completed...........");
 	}
 
-	    
+
 	      @Test
-	       public void loginTest() {	
+	       public void loginTest() {
 		    driver.get("https://opensource-demo.orangehrmlive.com/");
 		    driver.findElement(By.xpath("//div[@id='divUsername']/span")).click();
 		    driver.findElement(By.id("txtUsername")).clear();

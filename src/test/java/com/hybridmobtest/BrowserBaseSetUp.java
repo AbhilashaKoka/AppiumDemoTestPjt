@@ -1,5 +1,4 @@
 package com.hybridmobtest;
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -8,40 +7,37 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
 public class BrowserBaseSetUp {
-	AndroidDriver<MobileElement> driver;
-	static AppiumDriverLocalService service = null;
+    AndroidDriver<MobileElement> driver;
+    static AppiumDriverLocalService service = null;
 
+    @BeforeSuite
+    public AndroidDriver<MobileElement> getMobileDriver() throws MalformedURLException {
+        driver = createAndroidDriver();
+        return driver;
+    }
 
-	@BeforeSuite
-	public AndroidDriver<MobileElement> getMobileDriver() throws  MalformedURLException {
-		driver = createAndroidDriver();
-		return driver;
-	}
+    @AfterSuite
+    public void closeAndroidDriver() {
+        stopServer();
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
-	@AfterSuite
-	public void closeAndroidDriver() {
-		stopServer();
-		if (driver != null) {
-			driver.quit();
-		}
-	}
-
-	private AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
-		//execKill(1L);
-		startServer("local");
-		DesiredCapabilities capabilities = setCapabilitiesForAndroid();
-		driver = new AndroidDriver<>(new URL(service.getUrl().toString()), capabilities); // Use the correct URL format
-		return driver;
-	}
-
+    private AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
+        //execKill(1L);
+        startServer("local");
+        DesiredCapabilities capabilities = setCapabilitiesForAndroid();
+        driver = new AndroidDriver<>(new URL(service.getUrl().toString()), capabilities);
+        System.out.println("initialised driver");
+        return driver;
+    }
 
     private DesiredCapabilities setCapabilitiesForAndroid() {
         try {
@@ -60,50 +56,46 @@ public class BrowserBaseSetUp {
         }
     }
 
-	public static void execKill(long minutes) throws InterruptedException {
-		try {
-			Thread.sleep(minutes * 60L * 1000L);
-			Runtime.getRuntime().exec("cmd /c TASKKILL /F /IM node.exe");
-		} catch (IOException io) {
-			io.printStackTrace();
-		}
-	}
-
+    public static void execKill(long minutes) throws InterruptedException {
+        try {
+            Thread.sleep(minutes * 60L * 1000L);
+            Runtime.getRuntime().exec("cmd /c TASKKILL /F /IM node.exe");
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+    }
 
     public void startServer(String serviceName) {
         switch (serviceName) {
             case "grid":
-                service = new AppiumServiceBuilder()
-                .withIPAddress("0.0.0.0")
-                .usingPort(4723)
-                .withArgument(() -> "--use-drivers", "uiautomator2,chromium")
-                .withArgument(() -> "--use-plugins", "execute-driver")
-                .build();
+                AppiumServiceBuilder builder1  = new AppiumServiceBuilder();
+                builder1.withIPAddress("0.0.0.0");
+                builder1.usingPort(4723);
+                builder1.withArgument(() -> "--use-drivers", "uiautomator2,chromium");
+                builder1.withArgument(() -> "--use-plugins", "execute-driver");
+                service = builder1.build();
+                service.start();
                 break;
             case "local":
-                service = new AppiumServiceBuilder()
-                        .usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe"))
-                    .withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
-                    .withIPAddress("127.0.0.1")
-                    .usingPort(4723)
-                    .withArgument(() -> "--use-drivers", "uiautomator2,chromium")
-                    .withArgument(() -> "--use-plugins", "execute-driver")
-                    .withLogFile(new File("AppiumLog.txt"))
-                    .build();
+                AppiumServiceBuilder builder2  = new AppiumServiceBuilder();
+                builder2.usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe"));
+                builder2.withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"));
+                builder2.withIPAddress("127.0.0.1");
+                builder2.usingPort(4723);
+                builder2.withArgument(() -> "--use-drivers", "uiautomator2,chromium");
+                builder2.withArgument(() -> "--use-plugins", "execute-driver");
+                builder2.withLogFile(new File("AppiumLog.txt"));
+                service = builder2.build();
                 service.start();
-            // Add cases for other services if needed
+                break;
             default:
                 throw new IllegalArgumentException("Unsupported service: " + serviceName);
         }
-
-
     }
 
-	public void stopServer() {
-		if (service != null) {
-			service.stop();
-		}
-	}
-
-
+    public void stopServer() {
+        if (service != null) {
+            service.stop();
+        }
+    }
 }

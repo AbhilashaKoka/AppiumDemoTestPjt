@@ -1,7 +1,15 @@
-{
+[
+  {
  "deviceName":"emulator-5554",
 "platformName":"Android",
   "platformVersion": "10",
-"automationName":"UIAutomator2",
-  "browserName": "CHROME"
-}
+ "automationName":"UIAutomator2",
+  "browserName": "Chrome"
+},
+  {
+    "platformName": "Android",
+    "deviceName": "emulator-5554",
+    "appPackage": "com.android.settings",
+    "appActivity": ".Settings"
+  }
+]

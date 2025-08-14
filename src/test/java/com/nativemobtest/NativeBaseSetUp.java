@@ -27,7 +27,6 @@ public class NativeBaseSetUp {
     }
 
 
-
   @AfterSuite
     public void closeAndroidDriver() {
         stopServer();
@@ -73,10 +72,11 @@ public class NativeBaseSetUp {
         }
     }
 
-   // "C:\ApplicationPath\appium\appium.cmd"
+
+// .withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
 
     public void startServer() {
-        AppiumDriverLocalService service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
+         service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
                 .usingDriverExecutable(new File("C:\\Program Files\\nodejs\\node.exe"))
                 .withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\appium"))
                 .withIPAddress("0.0.0.0")
