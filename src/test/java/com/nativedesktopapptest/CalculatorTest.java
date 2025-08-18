@@ -1,4 +1,5 @@
 package com.nativedesktopapptest;
+import io.appium.java_client.AppiumBy;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -8,57 +9,57 @@ public class CalculatorTest extends DesktopBaseSetUp {
     @Test
     public void Addition()
     {
-        CalculatorSession.findElementByName("One").click();
-        CalculatorSession.findElementByName("Plus").click();
-        CalculatorSession.findElementByName("Seven").click();
-        CalculatorSession.findElementByName("Equals").click();
+        CalculatorSession.findElement(AppiumBy.name("One")).click();
+        CalculatorSession.findElement(AppiumBy.name("Plus")).click();
+        CalculatorSession.findElement(AppiumBy.name("Seven")).click();
+        CalculatorSession.findElement(AppiumBy.name("Equals")).click();
         Assert.assertEquals("8", _GetCalculatorResultText());
     }
 
     @Test
     public void Combination()
     {
-        CalculatorSession.findElementByName("Seven").click();
-        CalculatorSession.findElementByName("Multiply by").click();
-        CalculatorSession.findElementByName("Nine").click();
-        CalculatorSession.findElementByName("Plus").click();
-        CalculatorSession.findElementByName("One").click();
-        CalculatorSession.findElementByName("Equals").click();
-        CalculatorSession.findElementByName("Divide by").click();
-        CalculatorSession.findElementByName("Eight").click();
-        CalculatorSession.findElementByName("Equals").click();
+        CalculatorSession.findElement(AppiumBy.name("Seven")).click();
+        CalculatorSession.findElement(AppiumBy.name("Multiply by")).click();
+        CalculatorSession.findElement(AppiumBy.name("Nine")).click();
+        CalculatorSession.findElement(AppiumBy.name("Plus")).click();
+        CalculatorSession.findElement(AppiumBy.name("One")).click();
+        CalculatorSession.findElement(AppiumBy.name("Equals")).click();
+        CalculatorSession.findElement(AppiumBy.name("Divide by")).click();
+        CalculatorSession.findElement(AppiumBy.name("Eight")).click();
+        CalculatorSession.findElement(AppiumBy.name("Equals")).click();
         Assert.assertEquals("8", _GetCalculatorResultText());
     }
 
     @Test
     public void Division()
     {
-        CalculatorSession.findElementByName("Eight").click();
-        CalculatorSession.findElementByName("Eight").click();
-        CalculatorSession.findElementByName("Divide by").click();
-        CalculatorSession.findElementByName("One").click();
-        CalculatorSession.findElementByName("One").click();
-        CalculatorSession.findElementByName("Equals").click();
+        CalculatorSession.findElement(AppiumBy.name("Eight")).click();
+        CalculatorSession.findElement(AppiumBy.name("Eight")).click();
+        CalculatorSession.findElement(AppiumBy.name("Divide by")).click();
+        CalculatorSession.findElement(AppiumBy.name("One")).click();
+        CalculatorSession.findElement(AppiumBy.name("One")).click();
+        CalculatorSession.findElement(AppiumBy.name("Equals")).click();
         Assert.assertEquals("8", _GetCalculatorResultText());
     }
 
     @Test
     public void Multiplication()
     {
-        CalculatorSession.findElementByName("Nine").click();
-        CalculatorSession.findElementByName("Multiply by").click();
-        CalculatorSession.findElementByName("Nine").click();
-        CalculatorSession.findElementByName("Equals").click();
+        CalculatorSession.findElement(AppiumBy.name("Nine")).click();
+        CalculatorSession.findElement(AppiumBy.name("Multiply by")).click();
+        CalculatorSession.findElement(AppiumBy.name("Nine")).click();
+        CalculatorSession.findElement(AppiumBy.name("Equals")).click();
         Assert.assertEquals("81", _GetCalculatorResultText());
     }
 
     @Test
     public void Subtraction()
     {
-        CalculatorSession.findElementByName("Nine").click();
-        CalculatorSession.findElementByName("Minus").click();
-        CalculatorSession.findElementByName("One").click();
-        CalculatorSession.findElementByName("Equals").click();
+        CalculatorSession.findElement(AppiumBy.name("Nine")).click();
+        CalculatorSession.findElement(AppiumBy.name("Minus")).click();
+        CalculatorSession.findElement(AppiumBy.name("One")).click();
+        CalculatorSession.findElement(AppiumBy.name("Equals")).click();
         Assert.assertEquals("8", _GetCalculatorResultText());
     }
 

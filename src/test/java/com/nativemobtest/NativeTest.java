@@ -1,18 +1,30 @@
 package com.nativemobtest;
-import io.appium.java_client.MobileElement;
+import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 
 public class  NativeTest extends NativeBaseSetUp {
 
     @Test
+    public void testLogin() {
+        WebElement usernameField = driver.findElement(AppiumBy.accessibilityId("username"));
+        WebElement passwordField = driver.findElement(AppiumBy.accessibilityId("password"));
+        WebElement loginButton   = driver.findElement(AppiumBy.accessibilityId("login"));
+
+        usernameField.sendKeys("testuser");
+        passwordField.sendKeys("password123");
+        loginButton.click();
+    }
+
+    @Test
     public void test1(){
-        MobileElement two=driver.findElement(By.id("com.google.android.calculator:id/digit_2"));
-        MobileElement add=driver.findElement(By.id("com.google.android.calculator:id/op_add"));
-        MobileElement five=driver.findElement(By.id("com.google.android.calculator:id/digit_5"));
-        MobileElement equal=driver.findElement(By.id("com.google.android.calculator:id/eq"));
-        MobileElement space=driver.findElement(By.className("android.widget.TextView"));
+        WebElement two=driver.findElement(AppiumBy.id("com.google.android.calculator:id/digit_2"));
+        WebElement add=driver.findElement(AppiumBy.id("com.google.android.calculator:id/op_add"));
+        WebElement five=driver.findElement(AppiumBy.id("com.google.android.calculator:id/digit_5"));
+        WebElement equal=driver.findElement(AppiumBy.id("com.google.android.calculator:id/eq"));
+        WebElement space=driver.findElement(AppiumBy.className("android.widget.TextView"));
         two.click();
         add.click();
         five.click();
@@ -38,15 +50,15 @@ public class  NativeTest extends NativeBaseSetUp {
     @Test
     public void Test4() {
         if (driver != null) {
-            MobileElement digit2 = driver.findElementById("com.android.calculator2:id/digit_2");
+            WebElement digit2 = driver.findElement(AppiumBy.id("com.android.calculator2:id/digit_2"));
             digit2.click();
-            MobileElement plus = driver.findElementById("com.android.calculator2:id/op_add");
+            WebElement plus = driver.findElement(AppiumBy.id("com.android.calculator2:id/op_add"));
             plus.click();
-            MobileElement digit3 = driver.findElementById("com.android.calculator2:id/digit_3");
+            WebElement digit3 = driver.findElement(AppiumBy.id("com.android.calculator2:id/digit_3"));
             digit3.click();
-            MobileElement equals = driver.findElementById("com.android.calculator2:id/eq");
+            WebElement equals = driver.findElement(AppiumBy.id("com.android.calculator2:id/eq"));
             equals.click();
-            MobileElement result = driver.findElementById("com.android.calculator2:id/result");
+            WebElement result = driver.findElement(AppiumBy.id("com.android.calculator2:id/result"));
             System.out.println("Result: " + result.getText());
             }
     }

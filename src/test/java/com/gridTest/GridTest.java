@@ -1,14 +1,9 @@
 package com.gridTest;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.Test;
-
 import java.io.IOException;
 import java.net.*;
-
-import io.appium.java_client.AppiumDriver;
 
 
 
@@ -24,7 +19,7 @@ public class GridTest {
         capabilities.setCapability(MobileCapabilityType.UDID, "ZF6224BG9B");
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
         try {
-            AndroidDriver<MobileElement> driver = new AndroidDriver<>(new URL("http://"+getLocalHostAddress()+":"+getPort()+"/wd/hub"), capabilities);
+            AndroidDriver driver = new AndroidDriver(new URL("http://"+getLocalHostAddress()+":"+getPort()+"/wd/hub"), capabilities);
             driver.get("https://www.google.com");
             System.out.println("Page Title: " + driver.getTitle());
             driver.quit();

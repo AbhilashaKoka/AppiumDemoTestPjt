@@ -1,5 +1,4 @@
 package com.hybridmobtest;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -14,13 +13,17 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
+
+//import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
+
 public class BrowserBaseSetUp {
-    AndroidDriver<MobileElement> driver;
+    AndroidDriver driver;
     static AppiumDriverLocalService service = null;
 
 
     @BeforeMethod
-    public AndroidDriver<MobileElement> getMobileDriver() throws  MalformedURLException {
+    public AndroidDriver getMobileDriver() throws  MalformedURLException {
         driver = createAndroidDriver();
         return driver;
     }
@@ -33,39 +36,42 @@ public class BrowserBaseSetUp {
         }
     }
 
-    private AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
+    private AndroidDriver createAndroidDriver() throws MalformedURLException {
         startServer();
         DesiredCapabilities capabilities = setCapabilitiesForAndroid();
-        driver = new AndroidDriver<>(new URL(service.getUrl().toString()), capabilities);
+        driver = new AndroidDriver(new URL(service.getUrl().toString()), capabilities);
         System.out.println("initialised driver");
         return driver;
     }
 
     private DesiredCapabilities setCapabilitiesForAndroid() {
         try {
-            DesiredCapabilities cap = new DesiredCapabilities();
-            cap.setCapability("deviceName", "emulator-5554");
-            cap.setCapability("platformName", "Android");
-            cap.setCapability("platformVersion", "10");
-            cap.setCapability("automationName", "UIAutomator2");
-            cap.setCapability("browserName", "Chromium");
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.setExperimentalOption("w3c", false);
-            cap.setCapability("appium:chromeOptions", chromeOptions);
-            return cap;
+                DesiredCapabilities caps = new DesiredCapabilities();
+                caps.setCapability("platformName", "Android");
+                caps.setCapability("deviceName", "emulator-5554");
+                caps.setCapability("automationName", "UIAutomator2");
+                caps.setCapability("browserName", "Chrome");
+                caps.setCapability("noReset", true);
+                caps.setCapability("chromedriverAutodownload", true);
+                 ChromeOptions chromeOptions = new ChromeOptions();
+                  chromeOptions.setExperimentalOption("w3c", false);
+                  caps.setCapability("appium:chromeOptions", chromeOptions);
+            return caps;
         } catch (Exception ex) {
             throw new IllegalArgumentException("Browser isn't supported.");
         }
     }
 
     public void startServer() {
-                AppiumServiceBuilder builder = new AppiumServiceBuilder();
-                builder.withIPAddress("127.0.0.1"); // Or use .usingAnyFreePort()
-                builder.usingPort(4723); // Or use .usingAnyFreePort()
-                builder.withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js")); // Replace with your Appium path
-                // builder.withArgument(BASEPATH, "/wd/hub"); // Standard base path
-                // Add other server arguments as needed, e.g., builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
-                service = AppiumDriverLocalService.buildService(builder);
+        AppiumServiceBuilder builder = new AppiumServiceBuilder();
+        builder.withIPAddress("127.0.0.1"); // Or use .usingAnyFreePort()
+        builder.usingPort(4723); // Or use .usingAnyFreePort()
+        builder.withAppiumJS(new File("C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js")); // Replace with your Appium path
+        builder.withArgument(BASEPATH, "/wd/hub"); // Standard base path
+        // Add other server arguments as needed, e.g., builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
+        service = AppiumDriverLocalService.buildService(builder);
+        service.start();
+        System.out.println("Appium server started at: " + service.getUrl());   service = AppiumDriverLocalService.buildService(builder);
                 service.start();
                 System.out.println("Appium server started at: " + service.getUrl());
 

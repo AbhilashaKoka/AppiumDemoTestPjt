@@ -1,10 +1,12 @@
 package com.nativedesktopapptest;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import java.net.URL;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class DesktopBaseSetUp {
@@ -20,8 +22,8 @@ public class DesktopBaseSetUp {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
             CalculatorSession = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
-            CalculatorSession.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-            CalculatorResult = CalculatorSession.findElementByAccessibilityId("CalculatorResults");
+            CalculatorSession.manage().timeouts().implicitlyWait(Duration.ofDays(100));
+            CalculatorResult = CalculatorSession.findElement(AppiumBy.accessibilityId("CalculatorResults"));
             Assert.assertNotNull(CalculatorResult);
 
         }catch(Exception e){
@@ -32,7 +34,7 @@ public class DesktopBaseSetUp {
     @BeforeSuite
     public void Clear()
     {
-        CalculatorSession.findElementByName("Clear").click();
+        CalculatorSession.findElement(AppiumBy.name("Clear")).click();
         Assert.assertEquals("0", _GetCalculatorResultText());
     }
 
@@ -48,7 +50,6 @@ public class DesktopBaseSetUp {
 
     protected String _GetCalculatorResultText()
     {
-
         return CalculatorResult.getText().replace("Display is", "").trim();
     }
 

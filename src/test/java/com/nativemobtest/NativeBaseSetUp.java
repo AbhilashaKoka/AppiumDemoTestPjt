@@ -1,8 +1,8 @@
 package com.nativemobtest;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -14,12 +14,12 @@ import java.net.URL;
 
 
 public class NativeBaseSetUp {
-    static AndroidDriver<MobileElement> driver ;
+    static AndroidDriver driver ;
      private static AppiumDriverLocalService service;
 
 
     @BeforeMethod
-    public AndroidDriver<MobileElement> getMobileDriver() throws  MalformedURLException {
+    public AndroidDriver getMobileDriver() throws  MalformedURLException {
         driver = createAndroidDriver();
         return driver;
     }
@@ -34,11 +34,11 @@ public class NativeBaseSetUp {
     }
 
 
-    private  static  AndroidDriver<MobileElement> createAndroidDriver() throws MalformedURLException {
+    private  static  AndroidDriver createAndroidDriver() throws MalformedURLException {
         startServer();
         try {
             DesiredCapabilities capabilities = getDesiredCapabilities();
-            driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         }
         catch (MalformedURLException e) {
             e.printStackTrace();
@@ -61,13 +61,13 @@ public class NativeBaseSetUp {
 
 
     private static DesiredCapabilities getDesiredCapabilities() {
-  DesiredCapabilities capabilities = new DesiredCapabilities();
+    DesiredCapabilities capabilities = new DesiredCapabilities();
      capabilities.setCapability("deviceName", "emulator-5554");
      capabilities.setCapability("platformName", "Android");
      capabilities.setCapability("platformVersion", "10");
      capabilities.setCapability("appPackage", "com.google.android.calculator");
      capabilities.setCapability("appActivity", "com.android.calculator2.Calculator");
-      return capabilities;
+     return capabilities;
  }
 
 

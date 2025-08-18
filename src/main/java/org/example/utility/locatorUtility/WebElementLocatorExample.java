@@ -1,10 +1,11 @@
 package org.example.utility.locatorUtility;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class MobileElementLocatorExample {
+public class WebElementLocatorExample {
 
     public static void main(String[] args) {
         // Set up Desired Capabilities and AppiumDriver (example)
@@ -13,18 +14,18 @@ public class MobileElementLocatorExample {
         capabilities.setCapability("deviceName", "emulator-5554");
         capabilities.setCapability("app", "/path/to/your/app.apk");
 
-        WebDriver driver = new AppiumDriver<>(capabilities);
+        WebDriver driver = new AppiumDriver(capabilities);
 
         try {
             // Locate elements using the utility class
-            MobileElement loginButton = (MobileElement) driver.findElement(
-                MobileElementLocatorUtility.byAccessibilityId("loginButton")
+            WebElement loginButton = (WebElement) driver.findElement(
+                AppiumBy.accessibilityId("loginButton")
             );
-            MobileElement usernameField = (MobileElement) driver.findElement(
-                MobileElementLocatorUtility.byResourceId("com.example:id/username")
+            WebElement usernameField = (WebElement) driver.findElement(
+                    AppiumBy.id("com.example:id/username")
             );
-            MobileElement submitButton = (MobileElement) driver.findElement(
-                MobileElementLocatorUtility.byAndroidText("Submit")
+            WebElement submitButton = (WebElement) driver.findElement(
+                    AppiumBy.id("Submit")
             );
 
             // Perform actions
