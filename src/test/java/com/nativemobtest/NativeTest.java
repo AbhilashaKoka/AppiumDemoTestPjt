@@ -12,7 +12,6 @@ public class  NativeTest extends NativeBaseSetUp {
         WebElement usernameField = driver.findElement(AppiumBy.accessibilityId("username"));
         WebElement passwordField = driver.findElement(AppiumBy.accessibilityId("password"));
         WebElement loginButton   = driver.findElement(AppiumBy.accessibilityId("login"));
-
         usernameField.sendKeys("testuser");
         passwordField.sendKeys("password123");
         loginButton.click();

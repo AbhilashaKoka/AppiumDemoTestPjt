@@ -15,8 +15,7 @@ public class GridTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"Moto g(7)");
-        capabilities.setCapability(MobileCapabilityType.UDID, "ZF6224BG9B");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"emulator-5554");
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
         try {
             AndroidDriver driver = new AndroidDriver(new URL("http://"+getLocalHostAddress()+":"+getPort()+"/wd/hub"), capabilities);

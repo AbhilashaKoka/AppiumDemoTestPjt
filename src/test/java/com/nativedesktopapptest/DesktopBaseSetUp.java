@@ -7,7 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import java.net.URL;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class DesktopBaseSetUp {
 

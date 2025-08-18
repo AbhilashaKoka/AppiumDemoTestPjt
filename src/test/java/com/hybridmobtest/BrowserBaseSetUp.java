@@ -5,17 +5,11 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
-
-//import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
 
 public class BrowserBaseSetUp {
     AndroidDriver driver;
@@ -53,9 +47,9 @@ public class BrowserBaseSetUp {
                 caps.setCapability("browserName", "Chrome");
                 caps.setCapability("noReset", true);
                 caps.setCapability("chromedriverAutodownload", true);
-                 ChromeOptions chromeOptions = new ChromeOptions();
-                  chromeOptions.setExperimentalOption("w3c", false);
-                  caps.setCapability("appium:chromeOptions", chromeOptions);
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setExperimentalOption("w3c", false);
+                caps.setCapability("appium:chromeOptions", chromeOptions);
             return caps;
         } catch (Exception ex) {
             throw new IllegalArgumentException("Browser isn't supported.");
@@ -72,9 +66,8 @@ public class BrowserBaseSetUp {
         service = AppiumDriverLocalService.buildService(builder);
         service.start();
         System.out.println("Appium server started at: " + service.getUrl());   service = AppiumDriverLocalService.buildService(builder);
-                service.start();
-                System.out.println("Appium server started at: " + service.getUrl());
-
+        service.start();
+        System.out.println("Appium server started at: " + service.getUrl());
     }
 
 
