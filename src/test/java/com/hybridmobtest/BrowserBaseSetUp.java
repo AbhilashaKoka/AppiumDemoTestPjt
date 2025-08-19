@@ -14,10 +14,11 @@ import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPA
 public class BrowserBaseSetUp {
 
     static AppiumDriverLocalService service = null;
+AndroidDriver driver;
 
 
-    @BeforeMethod
-    public AndroidDriver getMobileDriver() throws  MalformedURLException {
+@BeforeMethod
+    public void startServer() throws  MalformedURLException {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         builder.withIPAddress("127.0.0.1"); // Or use .usingAnyFreePort()
         builder.usingPort(4723); // Or use .usingAnyFreePort()
@@ -29,13 +30,22 @@ public class BrowserBaseSetUp {
             service.start();
             System.out.println("Appium server started at: " + service.getUrl());
         }
-        DesiredCapabilities capabilities = setCapabilitiesForAndroid();
-        AndroidDriver driver = new AndroidDriver(new URL(service.getUrl().toString()), capabilities);
-        System.out.println("initialised driver");
+
+    }
+
+    public  AndroidDriver createAndroidDriver() throws MalformedURLException {
+        startServer();
+        try {
+            DesiredCapabilities capabilities = setCapabilitiesForAndroid();
+            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         return driver;
     }
 
-    @AfterMethod
+@AfterMethod
     public static void stopAppiumServer() {
         if (service != null && service.isRunning()) {
             service.stop();
@@ -51,7 +61,7 @@ public class BrowserBaseSetUp {
             caps.setCapability("deviceName", "emulator-5554");
             caps.setCapability("automationName", "UIAutomator2");
             caps.setCapability("browserName", "Chrome");
-            caps.setCapability("chromedriverExecutable", "C:\\ApplicationPath\\drivers\\chromedriver_74\\chromedriver.exe");
+            caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
             caps.setCapability("noReset", true);
             return caps;
         } catch (Exception ex) {
