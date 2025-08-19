@@ -1,11 +1,22 @@
 package com.nativemobtest;
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
+import java.net.MalformedURLException;
+
 
 public class  NativeTest extends NativeBaseSetUp {
+
+    // Initialize the AndroidDriver
+    private static final long serialVersionUID = 1L;
+    AndroidDriver driver;
+
+    public NativeTest() throws MalformedURLException {
+        driver = createAndroidDriverforNativeApp();
+    }
 
     @Test
     public void testLogin() {

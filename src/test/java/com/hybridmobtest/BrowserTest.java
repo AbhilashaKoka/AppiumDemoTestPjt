@@ -11,7 +11,7 @@ public class BrowserTest extends BrowserBaseSetUp {
 
     // Initialize the AndroidDriver
     private static final long serialVersionUID = 1L;
-AndroidDriver driver;
+     AndroidDriver driver;
 
     public BrowserTest() throws MalformedURLException {
       driver = createAndroidDriver();
