@@ -1,14 +1,20 @@
 package com.hybridmobtest;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
 
+import java.net.MalformedURLException;
 
 
 public class BrowserTest extends BrowserBaseSetUp {
+AndroidDriver driver;
 
+    public BrowserTest() throws MalformedURLException {
+      driver = getMobileDriver();
+    }
 
-	@Test
+    @Test
 	     public void searchgooglepage() {
 	       driver.get("https://www.google.com");
 	       driver.findElement(By.name("q")).sendKeys("Automation");
