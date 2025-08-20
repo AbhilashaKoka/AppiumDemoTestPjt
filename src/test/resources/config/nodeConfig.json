@@ -1,9 +1,9 @@
 {
   "capabilities": [
     {
-      "browserName": "Android",
+      "browserName": "Chrome",
       "version": "10.0",
-      "platform": "ANDROID",
+      "platformName": "Android",
       "deviceName": "emulator-5554",
       "automationName": "UiAutomator2"
     }
