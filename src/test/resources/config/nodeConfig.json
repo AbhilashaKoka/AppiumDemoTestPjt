@@ -2,23 +2,23 @@
   "capabilities": [
     {
       "browserName": "Android",
-      "version": "10",
-      "maxInstances": 1,
-      "platformName": "ANDROID",
-      "deviceName": "emulator-5554"
+      "version": "10.0",
+      "platform": "ANDROID",
+      "deviceName": "emulator-5554",
+      "automationName": "UiAutomator2"
     }
   ],
   "configuration": {
-    "cleanUpCycle": 200,
-    "timeout": 30,
-    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
-    "url": "http://127.0.0.1:4723/wd/hub",
-    "host": "127.0.0.1",
+    "nodeTimeout": 120,
     "port": 4723,
+    "hubHost": "localhost",
+    "hubPort": 4444,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
     "maxSession": 1,
     "register": true,
     "registerCycle": 5000,
-    "hubPort": 4444,
-    "hubHost": "127.0.0.1"
+    "url": "http://localhost:4723/wd/hub",
+    "cleanUpCycle": 5000,
+    "host": "127.0.0.1"
   }
 }

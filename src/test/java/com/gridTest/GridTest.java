@@ -1,19 +1,17 @@
 package com.gridTest;
-
-
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
+import java.io.IOException;
 
-import java.net.MalformedURLException;
 
 public class GridTest extends BaseSetUp {
     private static final long serialVersionUID = 1L;
     AndroidDriver driver;
 
-    public GridTest() throws MalformedURLException {
-        driver = createAndroidDriver();
+    public GridTest() throws IOException, InterruptedException {
+          driver = (AndroidDriver) setup("hybrid");
     }
 
     @Test

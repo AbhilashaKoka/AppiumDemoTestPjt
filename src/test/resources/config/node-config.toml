@@ -1,0 +1,12 @@
+[server]
+host = "127.0.0.1"
+port = 5555
+
+[node]
+detect-drivers = false
+driver-configuration = [
+    { display-name = "Appium Android", stereotype = { browserName = "android", platformName = "ANDROID" }, max-sessions = 1, url = "http://127.0.0.1:4723" }
+]
+
+[session-timeout]
+timeout = 300

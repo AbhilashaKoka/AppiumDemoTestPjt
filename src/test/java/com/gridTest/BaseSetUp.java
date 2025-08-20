@@ -1,7 +1,9 @@
 package com.gridTest;
-
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -10,29 +12,30 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.TimeUnit;
 
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
+
 public class BaseSetUp {
-    static String jarPath = "src/test/resource/driver/selenium-server-4.25.0.jar";
+    public static Process appiumProcess;
     public static WebDriver driver;
     public static AndroidDriver androidDriver;
-    static String servername = "standalone";
-    static Process appiumProcess;
+    static AppiumDriverLocalService service = null;
+    static DesiredCapabilities capabilities;
+    public static String jarPath = "src/test/resource/driver/selenium-server-4.25.0.jar";
+    public static String servername = "standalone";
+    public static String appPackage="com.google.android.calculator";
+    public static  String appActivity="com.android.calculator2.Calculator";
+    public static String gridUrl = "http://" + getLocalHostAddress() + ":4723";
+    public static String appiumMainJs = "C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js";
+
 
     @BeforeSuite
     public WebDriver setup(String browser) throws IOException, InterruptedException {
-        try {
             startSeleniumGridServer(jarPath, servername);
-            startAppiumServer();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        String gridUrl = "http://" + getLocalHostAddress() + ":4444";
-        switch (browser.toLowerCase()) {
+             switch (browser.toLowerCase()) {
             case "chrome":
                 driver = createWebDriver(gridUrl, new ChromeOptions());
                 return driver;
@@ -42,22 +45,15 @@ public class BaseSetUp {
             case "edge":
                 driver = createWebDriver(gridUrl, new EdgeOptions());
                 return driver;
-            case "android":
-                DesiredCapabilities caps = new DesiredCapabilities();
-                caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-                caps.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
-                caps.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
-                caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-                androidDriver = new AndroidDriver(new URL(gridUrl + "/wd/hub"), caps);
-                androidDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            case "hybrid":
+                driver=createAndroidDriver("hybrid");
+                return androidDriver;
+            case "native":
+               driver= createAndroidDriver("native");
                 return androidDriver;
             default:
                 throw new Error("Browser configuration is not defined!!");
         }
-    }
-
-    private WebDriver createWebDriver(String gridUrl, org.openqa.selenium.Capabilities options) throws MalformedURLException {
-        return new RemoteWebDriver(new URL(gridUrl), options);
     }
     @AfterSuite
     public static void tearDown() throws InterruptedException {
@@ -66,18 +62,68 @@ public class BaseSetUp {
         stopAppiumServer();
     }
 
+
+    private WebDriver createWebDriver(String gridUrl, Capabilities options) throws MalformedURLException {
+        return new RemoteWebDriver(new URL(gridUrl), options);
+    }
+
+
+    public  AndroidDriver createAndroidDriver( String cap) throws IOException {
+        startAppiumServer();
+        switch (cap.toLowerCase()) {
+            case "hybrid":
+               capabilities = setCapabilitiesForAndroidHybridApp();
+                driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+                return androidDriver;
+        case "native":
+             capabilities = getDesiredCapabilitiesforAndroidMativeapp();
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        return androidDriver;
+            default:
+                throw new IllegalArgumentException("Invalid capability type: " + cap);
+    }
+    }
+
+    private DesiredCapabilities setCapabilitiesForAndroidHybridApp() {
+        try {
+            DesiredCapabilities caps = new DesiredCapabilities();
+            caps.setCapability("platformName", "Android");
+            caps.setCapability("deviceName", "emulator-5554");
+            caps.setCapability("automationName", "UIAutomator2");
+            caps.setCapability("browserName", "Chrome");
+            caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
+            caps.setCapability("noReset", true);
+            return caps;
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Browser isn't supported.");
+        }
+    }
+    private static DesiredCapabilities getDesiredCapabilitiesforAndroidMativeapp() {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("deviceName", "emulator-5554");
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("platformVersion", "10");
+        capabilities.setCapability("automationName", "UIAutomator2");
+        capabilities.setCapability("appPackage", appPackage);
+        capabilities.setCapability("appActivity", appActivity);
+        return capabilities;
+    }
+
+
+
     // --- Appium server management ---
     public static void startAppiumServer() throws IOException {
-        // Adjust the path to your Appium main.js and Node.js as needed
-        String nodePath = "C:\\Program Files\\nodejs\\node.exe";
-        String appiumMainJs = "C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js";
-        ProcessBuilder pb = new ProcessBuilder(nodePath, appiumMainJs, "--port", "4723", "--base-path", "/wd/hub", "--log-level", "info", "--allow-insecure", "chromedriver_autodownload", "--use-plugins", "element-wait");
-        pb.redirectErrorStream(true);
-        appiumProcess = pb.start();
-        logServerOutput(appiumProcess);
-        System.out.println("Appium server started.");
-        // Wait a bit for Appium to be ready
-        try { Thread.sleep(5000); } catch (InterruptedException ignored) {}
+        AppiumServiceBuilder builder = new AppiumServiceBuilder();
+        builder.withIPAddress("127.0.0.1"); // Or use .usingAnyFreePort()
+        builder.usingPort(4723); // Or use .usingAnyFreePort()
+        builder.withAppiumJS(new File(appiumMainJs)); // Replace with your Appium path
+        builder.withArgument(BASEPATH, "/wd/hub"); // Standard base path
+        // Add other server arguments as needed, e.g., builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
+        service = AppiumDriverLocalService.buildService(builder);
+        if(!service.isRunning()) {
+            service.start();
+            System.out.println("Appium server started at: " + service.getUrl());
+        }
     }
 
     public static void stopAppiumServer() {
@@ -88,7 +134,6 @@ public class BaseSetUp {
     }
 
     // --- Selenium Grid code below (unchanged except for package fix) ---
-
     public static void startSeleniumGridServer(String jarPath, String serverType) throws IOException, InterruptedException {
         killExistingJavaProcesses();
         switch (serverType) {
@@ -106,6 +151,57 @@ public class BaseSetUp {
                 break;
         }
     }
+
+    public static void startDistributedServer(String jarPath) throws IOException, InterruptedException {
+        Process eventBus = launchEventBusProcess(jarPath);
+        logServerOutput(eventBus);
+        int exitCode3 = eventBus.waitFor();
+        System.out.println("Process exited with code:" + exitCode3);
+
+        Process routerServer = launchRouterService(jarPath);
+        logServerOutput(routerServer);
+        int exitCode7 = routerServer.waitFor();
+        System.out.println("Process exited with code:" + exitCode7);
+
+        Process sessionQueue = launchSessionQueueProcess(jarPath);
+        logServerOutput(sessionQueue);
+        int exitCode4 = sessionQueue.waitFor();
+        System.out.println("Process exited with code:" + exitCode4);
+
+        Process distributorServer = launchDistributorService(jarPath);
+        logServerOutput(distributorServer);
+        int exitCode6 = distributorServer.waitFor();
+        System.out.println("Process exited with code:" + exitCode6);
+
+        Process Node12 = launchBrowserNode(jarPath);
+        logServerOutput(Node12);
+        int exitCode8 = Node12.waitFor();
+        System.out.println("Process exited with code:" + exitCode8);
+
+        Process SessionMap = launchSessionMappingProcess(jarPath);
+        logServerOutput(SessionMap);
+        int exitCode5 = SessionMap.waitFor();
+        System.out.println("Process exited with code:" + exitCode5);
+    }
+
+    public static void startNodeServer(String jarPath) throws IOException, InterruptedException {
+        Process hubprocess = launchSeleniumHubServer(jarPath);
+        logServerOutput(hubprocess);
+        int exitCode1 = hubprocess.waitFor();
+        System.out.println("Process exited with code: " + exitCode1);
+        Process nodeprocess = launchSeleniumNodeProcess(jarPath);
+        logServerOutput(nodeprocess);
+        int exitCode2 = nodeprocess.waitFor();
+        System.out.println("Process exited with code: " + exitCode2);
+    }
+
+    public static void startStandaloneServer(String jarPath) throws IOException, InterruptedException {
+        Process standaloneprocess = launchSeleniumStandalone(jarPath);
+        logServerOutput(standaloneprocess);
+        int exitCode = standaloneprocess.waitFor();
+        System.out.println("Process exited with code: " + exitCode);
+    }
+
 
     private static Process launchSeleniumStandalone(String jarPath) throws IOException {
         ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone");
@@ -179,57 +275,7 @@ public class BaseSetUp {
         return process;
     }
 
-    public static void startDistributedServer(String jarPath) throws IOException, InterruptedException {
-        Process eventBus = launchEventBusProcess(jarPath);
-        logServerOutput(eventBus);
-        int exitCode3 = eventBus.waitFor();
-        System.out.println("Process exited with code:" + exitCode3);
-
-        Process routerServer = launchRouterService(jarPath);
-        logServerOutput(routerServer);
-        int exitCode7 = routerServer.waitFor();
-        System.out.println("Process exited with code:" + exitCode7);
-
-        Process sessionQueue = launchSessionQueueProcess(jarPath);
-        logServerOutput(sessionQueue);
-        int exitCode4 = sessionQueue.waitFor();
-        System.out.println("Process exited with code:" + exitCode4);
-
-        Process distributorServer = launchDistributorService(jarPath);
-        logServerOutput(distributorServer);
-        int exitCode6 = distributorServer.waitFor();
-        System.out.println("Process exited with code:" + exitCode6);
-
-        Process Node12 = launchBrowserNode(jarPath);
-        logServerOutput(Node12);
-        int exitCode8 = Node12.waitFor();
-        System.out.println("Process exited with code:" + exitCode8);
-
-        Process SessionMap = launchSessionMappingProcess(jarPath);
-        logServerOutput(SessionMap);
-        int exitCode5 = SessionMap.waitFor();
-        System.out.println("Process exited with code:" + exitCode5);
-    }
-
-    public static void startNodeServer(String jarPath) throws IOException, InterruptedException {
-        Process hubprocess = launchSeleniumHubServer(jarPath);
-        logServerOutput(hubprocess);
-        int exitCode1 = hubprocess.waitFor();
-        System.out.println("Process exited with code: " + exitCode1);
-        Process nodeprocess = launchSeleniumNodeProcess(jarPath);
-        logServerOutput(nodeprocess);
-        int exitCode2 = nodeprocess.waitFor();
-        System.out.println("Process exited with code: " + exitCode2);
-    }
-
-    public static void startStandaloneServer(String jarPath) throws IOException, InterruptedException {
-        Process standaloneprocess = launchSeleniumStandalone(jarPath);
-        logServerOutput(standaloneprocess);
-        int exitCode = standaloneprocess.waitFor();
-        System.out.println("Process exited with code: " + exitCode);
-    }
-
-    private static void killExistingJavaProcesses() throws IOException {
+      private static void killExistingJavaProcesses() throws IOException {
         ProcessBuilder processBuilder = new ProcessBuilder("tasklist");
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
@@ -246,7 +292,7 @@ public class BaseSetUp {
         }
     }
 
-    private static void logServerOutput(Process process) {
+    static void logServerOutput(Process process) {
         new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String line;
@@ -281,4 +327,5 @@ public class BaseSetUp {
         }
         return port;
     }
+
 }
