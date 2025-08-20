@@ -23,36 +23,42 @@ public class BaseSetUp {
     static Process appiumProcess;
 
     @BeforeSuite
-    public static void setup(String browser) throws IOException, InterruptedException {
+    public WebDriver setup(String browser) throws IOException, InterruptedException {
         try {
             startSeleniumGridServer(jarPath, servername);
             startAppiumServer();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        if (browser.equalsIgnoreCase("chrome")) {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            driver = new RemoteWebDriver(new URL("http://" + getLocalHostAddress() + ":4444"), chromeOptions);
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            FirefoxOptions firefoxOptions = new FirefoxOptions();
-            driver = new RemoteWebDriver(new URL("http://" + getLocalHostAddress() + ":4444"), firefoxOptions);
-        } else if (browser.equalsIgnoreCase("edge")) {
-            EdgeOptions edgeOptions = new EdgeOptions();
-            driver = new RemoteWebDriver(new URL("http://" + getLocalHostAddress() + ":4444"), edgeOptions);
-        } else if (browser.equalsIgnoreCase("android")) {
-            DesiredCapabilities caps = new DesiredCapabilities();
-            caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-            caps.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
-            caps.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
-            caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-            // Connect to Selenium Grid hub, which routes to Appium node
-            androidDriver = new AndroidDriver(new URL("http://" + getLocalHostAddress() + ":4444/wd/hub"), caps);
-            androidDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        } else {
-            throw new Error("Browser configuration is not defined!!");
+
+        String gridUrl = "http://" + getLocalHostAddress() + ":4444";
+        switch (browser.toLowerCase()) {
+            case "chrome":
+                driver = createWebDriver(gridUrl, new ChromeOptions());
+                return driver;
+            case "firefox":
+                driver = createWebDriver(gridUrl, new FirefoxOptions());
+                return driver;
+            case "edge":
+                driver = createWebDriver(gridUrl, new EdgeOptions());
+                return driver;
+            case "android":
+                DesiredCapabilities caps = new DesiredCapabilities();
+                caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+                caps.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554");
+                caps.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
+                caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+                androidDriver = new AndroidDriver(new URL(gridUrl + "/wd/hub"), caps);
+                androidDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                return androidDriver;
+            default:
+                throw new Error("Browser configuration is not defined!!");
         }
     }
 
+    private WebDriver createWebDriver(String gridUrl, org.openqa.selenium.Capabilities options) throws MalformedURLException {
+        return new RemoteWebDriver(new URL(gridUrl), options);
+    }
     @AfterSuite
     public static void tearDown() throws InterruptedException {
         if (driver != null) driver.quit();
