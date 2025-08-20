@@ -1,4 +1,4 @@
-package com.nativedesktopapptest;
+package com.WindowAppTest;
 import io.appium.java_client.AppiumBy;
 import org.testng.Assert;
 import org.testng.annotations.Test;

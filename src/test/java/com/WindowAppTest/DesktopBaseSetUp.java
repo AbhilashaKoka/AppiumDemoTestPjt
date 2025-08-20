@@ -1,4 +1,4 @@
-package com.nativedesktopapptest;
+package com.WindowAppTest;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;

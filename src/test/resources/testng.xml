@@ -18,7 +18,7 @@
 <!--                    <include name="Subtraction"/>-->
 <!--                </methods>-->
 <!--            </class>-->
-            <class name="com.nativemobtest.NativeTest">
+            <class name="com.appiumNativeTest.NativeTest">
                 <methods>
                     <include name="test1"/>
                     <include name="Sum"/>
