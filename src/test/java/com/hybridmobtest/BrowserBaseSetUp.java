@@ -13,7 +13,7 @@ import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPA
 public class BrowserBaseSetUp {
 
     static AppiumDriverLocalService service = null;
-AndroidDriver driver;
+   AndroidDriver driver;
 
 
 @BeforeMethod
