@@ -2,7 +2,6 @@ package com.appiumGridTest;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.testng.annotations.AfterMethod;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class GridLauncher {
     }
 
     public static void waitForSelenium() throws InterruptedException, IOException {
-        while (!isServiceUp("http://localhost:4444/status")){
+        while (isServiceUp("http://localhost:4444/status")){
             System.out.println("Waiting for Selenium Grid...");
             Thread.sleep(1000);
             stopSeleniumHub();
@@ -49,7 +48,7 @@ public class GridLauncher {
     }
 
     public static void waitForAppium() throws InterruptedException {
-        while (!isServiceUp("http://127.0.0.1:4723/wd/hub/status")) {
+        while (isServiceUp("http://127.0.0.1:4723/wd/hub/status")) {
             System.out.println(" Waiting for Appium server...");
             Thread.sleep(1000);
         }
@@ -74,9 +73,9 @@ public class GridLauncher {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
-            return connection.getResponseCode() == 200;
+            return connection.getResponseCode() != 200;
         } catch (IOException e) {
-            return false;
+            return true;
         }
     }
 
