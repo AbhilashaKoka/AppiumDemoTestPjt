@@ -1,25 +1,19 @@
 package com.appiumGridTest;
-import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
 import java.io.IOException;
 
 
-public class GridTest extends BaseSetUp {
-    private static final long serialVersionUID = 1L;
-    AndroidDriver driver;
+public class GridTest extends GridLauncher {
 
-    public GridTest() throws IOException, InterruptedException {
-          driver = (AndroidDriver) setup("hybrid");
-    }
 
-    @Test
-    public void searchgooglepage() {
-        driver.get("https://www.google.com");
-        driver.findElement(By.name("q")).sendKeys("Automation");
-        driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
-        System.out.println("Test Completed...........");
+@Test
+    public void test2() throws IOException, InterruptedException {
+        startSeleniumHub();
+        waitForSelenium();
+        startAppiumServer();
+        waitForAppium();
+        registerAppiumNode(nodeConfigPath);
+        killExistingJavaProcesses();
     }
 
 
