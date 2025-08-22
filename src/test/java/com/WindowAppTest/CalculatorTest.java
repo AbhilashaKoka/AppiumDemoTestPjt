@@ -1,7 +1,8 @@
-package com.WindowAppTest;
+package com.windowAppTest;
 import io.appium.java_client.AppiumBy;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 
 public class CalculatorTest extends DesktopBaseSetUp {
 

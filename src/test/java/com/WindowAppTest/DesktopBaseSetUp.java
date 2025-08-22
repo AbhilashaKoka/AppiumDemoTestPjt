@@ -1,4 +1,4 @@
-package com.WindowAppTest;
+package com.windowAppTest;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,7 @@ import java.time.Duration;
 
 public class DesktopBaseSetUp {
 
-   WindowsDriver CalculatorSession = null;
+   protected WindowsDriver CalculatorSession = null;
    WebElement CalculatorResult = null;
 
 //WAD(WinApp driver required) required
