@@ -15,6 +15,8 @@ public class GridTest extends GridLauncher {
     @BeforeMethod
     public void test() throws IOException, InterruptedException {
         startSeleniumHub();
+        getLocalHostAddress();
+        getPort();
         waitForSelenium();
         startAppiumServer();
         waitForAppium();
@@ -31,7 +33,8 @@ public class GridTest extends GridLauncher {
         caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
         caps.setCapability("noReset", true);
         // Point to Selenium Grid hub, which routes to Appium node
-        URL gridUrl = new URL("http://192.168.1.3:4444/ui/#/sessions");
+        URL gridUrl = new URL("http://192.168.1.3:4444/wd/hub");
+
         AndroidDriver driver = new AndroidDriver(gridUrl, caps);
        // Your test logic here
         System.out.println("Driver initialized successfully: " + driver.getCapabilities().getBrowserName());

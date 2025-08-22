@@ -6,19 +6,22 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
+
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
 
 public class GridLauncher {
     static String jarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
     static String appiumMainJs = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
     static String nodeConfigPath = "src/test/resources/config/node-config.toml";
+    static String gridConfigPath="src/test/resources/config/grid-config.toml";
     static AppiumDriverLocalService service = null;
 
 
     public static void startSeleniumHub() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone" );
+       // ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone" );
+       // ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone","--config", gridConfigPath, "--selenium-manager", "true" );
+        ProcessBuilder processBuilder = new ProcessBuilder( "java","-jar",jarPath, "-role","hub","-port", "4444");
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
         logServerOutput(process);
@@ -41,7 +44,7 @@ public class GridLauncher {
                 .withIPAddress("127.0.0.1")
                 .usingPort(4723)
                 .withAppiumJS(new File(appiumMainJs))
-                .withArgument(BASEPATH, "/wd/hub");
+        .withArgument(BASEPATH, "/wd/hub");
         service = AppiumDriverLocalService.buildService(builder);
         service.start();
         System.out.println(" Appium server started at: " + service.getUrl());
@@ -138,6 +141,32 @@ public class GridLauncher {
                 e.printStackTrace();
             }
         }).start();
+    }
+    public static String  getLocalHostAddress(){
+        String str=null;
+        try {
+            InetAddress localAddress = InetAddress.getLocalHost();
+            System.out.println("Local IP Address: " + localAddress.getHostAddress());
+            str= localAddress.getHostAddress();
+
+        } catch (UnknownHostException e) {
+            System.err.println("Could not get IP address: " + e.getMessage());
+        }
+        return str;
+    }
+
+
+    public static int getPort(){
+        int port = 0;
+        try (ServerSocket serverSocket = new ServerSocket(0)) {
+            // Get the port number
+            port = serverSocket.getLocalPort();
+            // Print the  port number
+            System.out.println("Local Port: " + port);
+        } catch (IOException e) {
+            System.err.println("Could not get port: " + e.getMessage());
+        }
+        return port;
     }
 
 }
