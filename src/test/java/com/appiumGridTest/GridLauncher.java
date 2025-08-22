@@ -18,7 +18,7 @@ public class GridLauncher {
 
 
     public static void startSeleniumHub() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone");
+        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone" );
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
         logServerOutput(process);
