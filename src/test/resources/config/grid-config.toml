@@ -1,6 +1,6 @@
 [server]
 port = 4444
-host = "127.0.0.1"
+host = "localhost"
 
 [session]
 max-concurrent-sessions = 5
@@ -9,7 +9,7 @@ session-timeout = 300
 [node]
 detect-drivers = true
 driver-configuration = [
-    { browserName = "chrome", maxInstances = 3 },
+    { browserName = "Chrome", maxInstances = 3 },
     { browserName = "firefox", maxInstances = 2 }
 ]
 
@@ -19,3 +19,10 @@ log-file = "grid.log"
 
 [events]
 publish = true
+
+[sessionQueue]
+sessionRequestTimeout = 30000
+sessionRetryInterval = 5000
+
+[distributor]
+maxSession = 10

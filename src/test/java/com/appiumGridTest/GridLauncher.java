@@ -18,15 +18,22 @@ public class GridLauncher {
        ProcessBuilder processBuilder1 = new ProcessBuilder(
                 "java",
                 "-jar", jarPath,
-                "hub",
-                "--config", gridConfigPath
+                "-role hub"
+              // ,"--config", gridConfigPath
         );
         processBuilder1.redirectErrorStream(true);
         Process process1 = processBuilder1.start();
         logServerOutput(process1);
-        int exitCode2 = process1.waitFor();
+        int exitCode1 = process1.waitFor();
+        System.out.println("Process exited with code: " + exitCode1);
+        System.out.println("Selenium Hub Server started.");
+        ProcessBuilder processBuilder2 = new ProcessBuilder("java", "-jar", jarPath, "-role node", "-hub https://localhost:4444/grid/register","--log", "node.log");
+         processBuilder2.redirectErrorStream(true);
+        Process process2 = processBuilder2.start();
+        logServerOutput(process2);
+        int exitCode2 = process2.waitFor();
         System.out.println("Process exited with code: " + exitCode2);
-        System.out.println(" Selenium Standalone Server launched.");
+        System.out.println("Selenium Node Server started.");
     }
 
     public static void waitForSelenium() throws InterruptedException, IOException {
@@ -41,14 +48,13 @@ public class GridLauncher {
 
 
         public static void startAppiumServer() throws InterruptedException, IOException {
-            ProcessBuilder processBuilder2 = new ProcessBuilder(
-                    "node", appiumMainJs, "--nodeconfig", nodeConfigPath2, "--base-path", "/wd/hub"
-            );
-            processBuilder2.redirectErrorStream(true);
-            Process process2 = processBuilder2.start();
-            logServerOutput(process2);
-            int exitCode2 = process2.waitFor();
-            System.out.println("Process exited with code: " + exitCode2);
+            ProcessBuilder processBuilder3 = new ProcessBuilder(
+                    "node", appiumMainJs, "--nodeconfig", nodeConfigPath2, "--base-path", "/wd/hub" );
+            processBuilder3.redirectErrorStream(true);
+            Process process3 = processBuilder3.start();
+            logServerOutput(process3);
+            int exitCode3= process3.waitFor();
+            System.out.println("Process exited with code: " + exitCode3);
             System.out.println(" Configure Appium Node JSON file and connect it to the Selenium Grid Hub");
         }
 
@@ -65,12 +71,12 @@ public class GridLauncher {
         if (!configFile.exists()) {
             throw new IOException(" Node config file not found: " + configPath);
         }
-        ProcessBuilder builder = new ProcessBuilder("java", "-jar", jarPath, "node", "--config", "src/test/resources/config/nodeConfig-android.json");
+        ProcessBuilder builder = new ProcessBuilder("java", "-jar", jarPath, "node", "--config", "src/test/resources/config/nodeConfig.json");
         builder.redirectErrorStream(true);
-        Process process = builder.start();
-        logServerOutput(process);
-        int exitCode = process.waitFor();
-        System.out.println("Process exited with code: " + exitCode);
+        Process process4 = builder.start();
+        logServerOutput(process4);
+        int exitCode4 = process4.waitFor();
+        System.out.println("Process exited with code: " + exitCode4);
         System.out.println("Appium node registered with Selenium Grid.");
     }
 
@@ -95,7 +101,9 @@ public class GridLauncher {
                   System.out.println("Appium server stopped.");
             }
     public static void stopSeleniumHub() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "stop");
+        ProcessBuilder processBuilder = new ProcessBuilder( "java",
+                "-jar", jarPath,
+                 "stop");
         processBuilder.inheritIO();
         Process process = processBuilder.start();
         process.waitFor();

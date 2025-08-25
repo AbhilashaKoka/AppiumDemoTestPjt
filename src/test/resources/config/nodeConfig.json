@@ -1,26 +1,22 @@
 {
-  "capabilities": [
-    {
-      "browserName": "Chrome",
-      "platformName": "Android",
-      "platformVersion": "10",
-      "deviceName": "emulator-5554",
-      "automationName": "UiAutomator2"
+  "server": {
+    "port": 5555
+  },
+  "node": {
+    "host": "localhost"
+  },
+  "eventBus": {
+    "publish": "http://localhost:4442",
+    "subscribe": "http://localhost:4443"
+  },
+  "driverConfiguration": {
+  "android": {
+  "automationName": "UIAutomator2",
+  "chromedriverExecutable": "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe",
+  "deviceName": "emulator-5554",
+  "noReset": true,
+  "browserName": "Chrome",
+  "platformName": "ANDROID"
+}
     }
-  ],
-  "configuration": {
-    "nodeTimeout": 120,
-    "cleanUpCycle": 5000,
-    "port": 5555,
-    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
-    "url": "http://192.168.1.3:5555/wd/hub",
-    "maxSession": 1,
-    "hubHost": "192.168.1.3",
-    "hubPort": 4444,
-    "register": true,
-    "registerCycle": 5000,
-    "unregisterIfStillDownAfter": 60000,
-    "hubPort": 4444,
-    "hubHost": "192.168.1.3"
-  }
 }

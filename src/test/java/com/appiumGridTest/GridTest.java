@@ -2,7 +2,9 @@ package com.appiumGridTest;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -15,9 +17,9 @@ public class GridTest extends GridLauncher {
     @BeforeMethod
     public void test() throws IOException, InterruptedException {
         startSeleniumHub();
-        waitForSelenium();
+      //  waitForSelenium();
         startAppiumServer();
-        waitForAppium();
+       // waitForAppium();
         registerAppiumNode(nodeConfigPath);
     }
 
@@ -32,10 +34,9 @@ public class GridTest extends GridLauncher {
         caps.setCapability("noReset", true);
         // Point to Selenium Grid hub, which routes to Appium node
         URL gridUrl = new URL("http://192.168.1.3:4444/wd/hub");
-
-        AndroidDriver driver = new AndroidDriver(gridUrl, caps);
-       // Your test logic here
-        System.out.println("Driver initialized successfully: " + driver.getCapabilities().getBrowserName());
+       // WebDriver driver = new RemoteWebDriver(new URL("https://localhost:4444/wd/hub"), caps);
+      AndroidDriver driver = new AndroidDriver(gridUrl, caps);
+    //     System.out.println("Driver initialized successfully: " + driver.getCapabilities().getBrowserName());
         driver.get("https://www.google.com");
         driver.findElement(By.name("q")).sendKeys("Automation");
         driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
