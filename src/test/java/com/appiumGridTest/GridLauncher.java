@@ -1,6 +1,4 @@
 package com.appiumGridTest;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.testng.annotations.AfterMethod;
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,20 +6,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
 
 public class GridLauncher {
     static String jarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
     static String appiumMainJs = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
     static String nodeConfigPath = "src/test/resources/config/node-config.toml";
     static String gridConfigPath="src/test/resources/config/grid-config.toml";
-    static AppiumDriverLocalService service = null;
-
+   static String nodeConfigPath2="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
     public static void startSeleniumHub() throws IOException, InterruptedException {
-       // ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone" );
-       // ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone","--config", gridConfigPath, "--selenium-manager", "true" );
-        ProcessBuilder processBuilder = new ProcessBuilder( "java","-jar",jarPath, "-role","hub","-port", "4444");
+     //  ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone","-role","hub","--config", gridConfigPath, "--selenium-manager", "true" );
+        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone","--selenium-manager");
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
         logServerOutput(process);
@@ -39,19 +34,22 @@ public class GridLauncher {
         System.out.println("Selenium Grid is up.");
     }
 
-    public static void startAppiumServer() {
-        AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withIPAddress("127.0.0.1")
-                .usingPort(4723)
-                .withAppiumJS(new File(appiumMainJs))
-        .withArgument(BASEPATH, "/wd/hub");
-        service = AppiumDriverLocalService.buildService(builder);
-        service.start();
-        System.out.println(" Appium server started at: " + service.getUrl());
-    }
+
+
+        public static void startAppiumServer() throws InterruptedException, IOException {
+            ProcessBuilder processBuilder2 = new ProcessBuilder(
+                    "node", appiumMainJs, "--nodeconfig", nodeConfigPath2, "--base-path", "/wd/hub"
+            );
+            processBuilder2.redirectErrorStream(true);
+            Process process2 = processBuilder2.start();
+            logServerOutput(process2);
+            int exitCode2 = process2.waitFor();
+            System.out.println("Process exited with code: " + exitCode2);
+            System.out.println(" Configure Appium Node JSON file and connect it to the Selenium Grid Hub");
+        }
 
     public static void waitForAppium() throws InterruptedException {
-        while (isServiceUp("http://127.0.0.1:4723/wd/hub/status")) {
+        while (isServiceUp("http://192.168.1.3:5555/wd/hub/status")) {
             System.out.println(" Waiting for Appium server...");
             Thread.sleep(1000);
         }
@@ -63,7 +61,7 @@ public class GridLauncher {
         if (!configFile.exists()) {
             throw new IOException(" Node config file not found: " + configPath);
         }
-        ProcessBuilder builder = new ProcessBuilder("java", "-jar", jarPath, "node", "--config", configFile.getAbsolutePath());
+        ProcessBuilder builder = new ProcessBuilder("java", "-jar", jarPath, "node", "--config", "src/test/resources/config/nodeConfig-android.json");
         builder.redirectErrorStream(true);
         Process process = builder.start();
         logServerOutput(process);
@@ -83,11 +81,8 @@ public class GridLauncher {
     }
 
     public static void stopAppiumServer() {
-        if (service != null && service.isRunning()) {
-            service.stop();
-            System.out.println("Appium server stopped.");
-        }
-    }
+                  System.out.println("Appium server stopped.");
+            }
     public static void stopSeleniumHub() throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "stop");
         processBuilder.inheritIO();
