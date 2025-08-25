@@ -15,8 +15,6 @@ public class GridTest extends GridLauncher {
     @BeforeMethod
     public void test() throws IOException, InterruptedException {
         startSeleniumHub();
-        getLocalHostAddress();
-        getPort();
         waitForSelenium();
         startAppiumServer();
         waitForAppium();

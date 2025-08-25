@@ -15,13 +15,17 @@ public class GridLauncher {
    static String nodeConfigPath2="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
     public static void startSeleniumHub() throws IOException, InterruptedException {
-     //  ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone","-role","hub","--config", gridConfigPath, "--selenium-manager", "true" );
-        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarPath, "standalone","--selenium-manager");
-        processBuilder.redirectErrorStream(true);
-        Process process = processBuilder.start();
-        logServerOutput(process);
-        int exitCode = process.waitFor();
-        System.out.println("Process exited with code: " + exitCode);
+       ProcessBuilder processBuilder1 = new ProcessBuilder(
+                "java",
+                "-jar", jarPath,
+                "hub",
+                "--config", gridConfigPath
+        );
+        processBuilder1.redirectErrorStream(true);
+        Process process1 = processBuilder1.start();
+        logServerOutput(process1);
+        int exitCode2 = process1.waitFor();
+        System.out.println("Process exited with code: " + exitCode2);
         System.out.println(" Selenium Standalone Server launched.");
     }
 
@@ -72,6 +76,13 @@ public class GridLauncher {
 
     public static boolean isServiceUp(String url) {
         try {
+//            URL url = new URL("http://localhost:4444/status");
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            conn.setRequestMethod("GET");
+//
+//            if (conn.getResponseCode() == 200) {
+//                System.out.println("Grid is up at: " + url);
+//            }
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
             return connection.getResponseCode() != 200;
