@@ -93,3 +93,7 @@ These capabilities must match what your emulator or devices supports and what yo
 
 c:\users\..\AppData\Local\Android\sdk\emulator
 emulator -avd Pixel6 -feature -Vulkan
+
+
+adb -s emulator-5554 uninstall io.appium.uiautomator2.server.test
+

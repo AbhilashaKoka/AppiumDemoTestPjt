@@ -15,8 +15,10 @@ public class GridLauncher {
     static String ConfigPath ="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
     public static void startAppiumServer() throws InterruptedException, IOException {
+        preLaunchCleanUpSetUp();
         ProcessBuilder processBuilder3 = new ProcessBuilder(
-                "node", appiumMainJs, "--nodeconfig", ConfigPath, "--base-path", "/wd/hub" );
+                "node", appiumMainJs, "--nodeconfig", ConfigPath, "--base-path", "/wd/hub");
+
 //        ProcessBuilder processBuilder3 = new ProcessBuilder(
 //                "appium", "-a", "0.0.0.0", "-p", "4723" );
         processBuilder3.redirectErrorStream(true);
@@ -25,15 +27,7 @@ public class GridLauncher {
         int exitCode3= process3.waitFor();
         System.out.println("Process exited with code: " + exitCode3);
         System.out.println("Appium Server started.");
-//        //  ProcessBuilder processBuilder2 = new ProcessBuilder("java", "-jar", jarPath, "node", "--detect-drivers", "--publish-events", "tcp://10.0.75.1:4442", "--subscribe-events", "tcp://10.0.75.1:4443");
-//        ProcessBuilder processBuilder2 = new ProcessBuilder("appium", "--port", "4723", nodeConfigPath2 );
-//        processBuilder2.redirectErrorStream(true);
-//        Process process2 = processBuilder2.start();
-//        logServerOutput(process2);
-//        int exitCode2 = process2.waitFor();
-//        System.out.println("Process exited with code: " + exitCode2);
-//        System.out.println("Selenium Node Server started.");
-    }
+}
 
     public static void startSeleniumHub() throws IOException, InterruptedException {
         ProcessBuilder processBuilder1 = new ProcessBuilder("java","-jar", jarPath,"standalone" ,"--config", node2Path);
@@ -177,4 +171,15 @@ public class GridLauncher {
         return port;
     }
 
+    public static void preLaunchCleanUpSetUp() throws IOException, InterruptedException {
+        String[] packages = {
+                "io.appium.uiautomator2.server",
+                "io.appium.uiautomator2.server.test"
+        };
+
+        for (String pkg : packages) {
+            ProcessBuilder pb = new ProcessBuilder("adb", "-s", "emulator-5554", "uninstall", pkg);
+            pb.inheritIO().start().waitFor();
+        }
+    }
 }

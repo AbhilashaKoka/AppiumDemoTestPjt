@@ -1,5 +1,7 @@
 package com.appiumGridTest;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+import org.checkerframework.checker.guieffect.qual.UI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -24,18 +26,29 @@ public class GridTest extends GridLauncher {
 
     @Test
         public void test2() throws Exception {
-        DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability("platformName", "android");
-        caps.setCapability("deviceName", "emulator-5554");
-        caps.setCapability("automationName", "UIAutomator2");
-        caps.setCapability("platformVersion", "10");
-        caps.setCapability("browserName", "chrome");
-        caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
-        caps.setCapability("noReset", true);
-        // Point to Selenium Grid hub, which routes to Appium node
-        URL gridUrl = new URL("http://192.168.1.3:4444/wd/hub");
+        UiAutomator2Options capabilites=new UiAutomator2Options();
+        capabilites.setPlatformName("android");
+        capabilites.setUdid("emulator-5554");
+        capabilites.setAutomationName("UIAutomator2");
+        capabilites.setPlatformVersion("10");
 
-      AndroidDriver driver = new AndroidDriver(gridUrl, caps);
+        capabilites.setChromedriverExecutable("C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
+        capabilites.setNoReset(true);
+
+
+//        DesiredCapabilities caps = new DesiredCapabilities();
+//        caps.setCapability("platformName", "android");
+//        caps.setCapability("deviceName", "emulator-5554");
+//        caps.setCapability("automationName", "UIAutomator2");
+//        caps.setCapability("platformVersion", "10");
+//        caps.setCapability("browserName", "chrome");
+//        caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
+//        caps.setCapability("noReset", true);
+//        caps.setCapability("newCommandTimeout", 300);
+        // Point to Selenium Grid hub, which routes to Appium node
+        URL gridUrl = new URL("http://127.0.0.1:4732/wd/hub");
+
+      AndroidDriver driver = new AndroidDriver(gridUrl, capabilites);
     System.out.println("Driver initialized successfully: " + driver.getCapabilities().getBrowserName());
         driver.get("https://www.google.com");
         driver.findElement(By.name("q")).sendKeys("Automation");
