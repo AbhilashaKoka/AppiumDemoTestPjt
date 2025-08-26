@@ -89,3 +89,7 @@ These capabilities must match what your emulator or devices supports and what yo
 
 
 These capabilities must match what your emulator or devices supports and what your Appium server can handle
+These capabilities must match what your emulator or devices supports and what your Appium server can handle
+
+c:\users\..\AppData\Local\Android\sdk\emulator
+emulator -avd Pixel6 -feature -Vulkan

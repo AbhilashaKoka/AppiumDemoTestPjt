@@ -1,6 +1,6 @@
 {
   "server": {
-    "port": 5555
+    "port": 4444
   },
   "node": {
     "host": "localhost"
@@ -15,8 +15,8 @@
   "chromedriverExecutable": "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe",
   "deviceName": "emulator-5554",
   "noReset": true,
-  "browserName": "Chrome",
-  "platformName": "ANDROID"
+  "browserName": "chrome",
+  "platformName": "android"
 }
     }
 }

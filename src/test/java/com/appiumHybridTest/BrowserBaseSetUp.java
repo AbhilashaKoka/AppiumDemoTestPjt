@@ -56,11 +56,11 @@ public class BrowserBaseSetUp {
     private DesiredCapabilities setCapabilitiesForAndroid() {
         try {
             DesiredCapabilities caps = new DesiredCapabilities();
-            caps.setCapability("platformName", "Android");
+            caps.setCapability("platformName", "android");
             caps.setCapability("deviceName", "emulator-5554");
             caps.setCapability("automationName", "UIAutomator2");
             caps.setCapability("platformVersion", "10");
-            caps.setCapability("browserName", "Chrome");
+            caps.setCapability("browserName", "chrome");
             caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
             caps.setCapability("noReset", true);
             return caps;

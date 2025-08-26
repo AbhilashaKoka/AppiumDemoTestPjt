@@ -58,7 +58,7 @@ public class NativeBaseSetUp {
     private static DesiredCapabilities getDesiredCapabilities() {
     DesiredCapabilities capabilities = new DesiredCapabilities();
      capabilities.setCapability("deviceName", "emulator-5554");
-     capabilities.setCapability("platformName", "Android");
+     capabilities.setCapability("platformName", "android");
      capabilities.setCapability("platformVersion", "10");
      capabilities.setCapability("automationName", "UIAutomator2");
      capabilities.setCapability("appPackage", "com.google.android.calculator");
