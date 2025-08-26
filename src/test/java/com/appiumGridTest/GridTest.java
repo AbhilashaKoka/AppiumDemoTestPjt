@@ -16,11 +16,10 @@ public class GridTest extends GridLauncher {
 
     @BeforeMethod
     public void test() throws IOException, InterruptedException {
-        startSeleniumHub();
-      //  waitForSelenium();
         startAppiumServer();
+        startSeleniumHub();
        // waitForAppium();
-        registerAppiumNode(nodeConfigPath);
+//        registerAppiumNode(nodeConfigPath);
     }
 
     @Test
@@ -29,6 +28,7 @@ public class GridTest extends GridLauncher {
         caps.setCapability("platformName", "Android");
         caps.setCapability("deviceName", "emulator-5554");
         caps.setCapability("automationName", "UIAutomator2");
+        caps.setCapability("platformVersion", "10");
         caps.setCapability("browserName", "Chrome");
         caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
         caps.setCapability("noReset", true);

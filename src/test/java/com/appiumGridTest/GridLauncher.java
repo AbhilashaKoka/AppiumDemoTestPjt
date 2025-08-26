@@ -14,26 +14,38 @@ public class GridLauncher {
     static String gridConfigPath="src/test/resources/config/grid-config.toml";
    static String nodeConfigPath2="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
+    public static void startAppiumServer() throws InterruptedException, IOException {
+        ProcessBuilder processBuilder3 = new ProcessBuilder(
+                "node", appiumMainJs, "--nodeconfig", nodeConfigPath2, "--base-path", "/wd/hub" );
+//        ProcessBuilder processBuilder3 = new ProcessBuilder(
+//                "appium", "-a", "0.0.0.0", "-p", "4723" );
+        processBuilder3.redirectErrorStream(true);
+        Process process3 = processBuilder3.start();
+        logServerOutput(process3);
+        int exitCode3= process3.waitFor();
+        System.out.println("Process exited with code: " + exitCode3);
+        System.out.println(" Configure Appium Node JSON file and connect it to the Selenium Grid Hub");
+//        //  ProcessBuilder processBuilder2 = new ProcessBuilder("java", "-jar", jarPath, "node", "--detect-drivers", "--publish-events", "tcp://10.0.75.1:4442", "--subscribe-events", "tcp://10.0.75.1:4443");
+//        ProcessBuilder processBuilder2 = new ProcessBuilder("appium", "--port", "4723", nodeConfigPath2 );
+//        processBuilder2.redirectErrorStream(true);
+//        Process process2 = processBuilder2.start();
+//        logServerOutput(process2);
+//        int exitCode2 = process2.waitFor();
+//        System.out.println("Process exited with code: " + exitCode2);
+//        System.out.println("Selenium Node Server started.");
+    }
+
     public static void startSeleniumHub() throws IOException, InterruptedException {
-       ProcessBuilder processBuilder1 = new ProcessBuilder(
-                "java",
-                "-jar", jarPath,
-                "-role hub"
-              // ,"--config", gridConfigPath
-        );
+        ProcessBuilder processBuilder1 = new ProcessBuilder("java","-jar", jarPath,"standalone" ,"--config", nodeConfigPath);
+
+
         processBuilder1.redirectErrorStream(true);
         Process process1 = processBuilder1.start();
         logServerOutput(process1);
         int exitCode1 = process1.waitFor();
         System.out.println("Process exited with code: " + exitCode1);
         System.out.println("Selenium Hub Server started.");
-        ProcessBuilder processBuilder2 = new ProcessBuilder("java", "-jar", jarPath, "-role node", "-hub https://localhost:4444/grid/register","--log", "node.log");
-         processBuilder2.redirectErrorStream(true);
-        Process process2 = processBuilder2.start();
-        logServerOutput(process2);
-        int exitCode2 = process2.waitFor();
-        System.out.println("Process exited with code: " + exitCode2);
-        System.out.println("Selenium Node Server started.");
+
     }
 
     public static void waitForSelenium() throws InterruptedException, IOException {
@@ -47,16 +59,7 @@ public class GridLauncher {
 
 
 
-        public static void startAppiumServer() throws InterruptedException, IOException {
-            ProcessBuilder processBuilder3 = new ProcessBuilder(
-                    "node", appiumMainJs, "--nodeconfig", nodeConfigPath2, "--base-path", "/wd/hub" );
-            processBuilder3.redirectErrorStream(true);
-            Process process3 = processBuilder3.start();
-            logServerOutput(process3);
-            int exitCode3= process3.waitFor();
-            System.out.println("Process exited with code: " + exitCode3);
-            System.out.println(" Configure Appium Node JSON file and connect it to the Selenium Grid Hub");
-        }
+
 
     public static void waitForAppium() throws InterruptedException {
         while (isServiceUp("http://192.168.1.3:5555/wd/hub/status")) {
@@ -65,7 +68,7 @@ public class GridLauncher {
         }
         System.out.println("Appium server is ready.");
     }
-
+//By Using Relay Server-Standalone or node with relay server
     public static void registerAppiumNode(String configPath) throws IOException, InterruptedException {
         File configFile = new File(configPath);
         if (!configFile.exists()) {
@@ -82,13 +85,6 @@ public class GridLauncher {
 
     public static boolean isServiceUp(String url) {
         try {
-//            URL url = new URL("http://localhost:4444/status");
-//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//            conn.setRequestMethod("GET");
-//
-//            if (conn.getResponseCode() == 200) {
-//                System.out.println("Grid is up at: " + url);
-//            }
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
             return connection.getResponseCode() != 200;

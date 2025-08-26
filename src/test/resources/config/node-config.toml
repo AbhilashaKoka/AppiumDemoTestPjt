@@ -1,11 +1,19 @@
 [server]
-host= "localhost"
-port = 5555
+port = 4444
 
 [node]
 detect-drivers = false
+
+[relay]
+url= "http://localhost:4723/wd/hub"
+status-endpoint = "/status"
+#se
+configs=[
+    "1","{\"browserName\":\"chrome\",\"platformName\":\"android\",\"platformVersion\":\"10\"}",
+    "1","{\"browserName\":\"safari\",\"platformName\":\"ios\",\"platformVersion\":\"12\"}"
+]
 driver-configuration = [
-    { display-name = "Appium Android", stereotype = { browserName = "Chrome", platformName = "ANDROID" }, max-sessions = 1, url = "http://127.0.0.1:4723" }
+    { display-name = "Appium Android", stereotype = { browserName = "chrome", platformName = "android" }, max-sessions = 1, url = "http://127.0.0.1:4723" }
 ]
 
 [session-timeout]
