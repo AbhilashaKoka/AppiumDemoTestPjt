@@ -1,5 +1,8 @@
 package demo.com;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -36,5 +39,11 @@ public class AppiumSessionStarter {
 
         System.out.println("Status Code: " + response.statusCode());
         System.out.println("Response Body: " + response.body());
+        // Parse JSON and extract sessionId
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(response.body());
+        String sessionId = root.path("value").path("sessionId").asText();
+
+        System.out.println("Extracted Session ID: " + sessionId);
     }
 }

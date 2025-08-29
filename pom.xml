@@ -10,6 +10,9 @@
         <appium.version>8.5.1</appium.version>
         <selenium.version>4.11.0</selenium.version>
         <testng.version>7.10.2</testng.version>
+        <json.version>20240303</json.version>
+        <jackson.version>2.17.2</jackson.version>
+        <json.object.version>1.1.1</json.object.version>
 <!--        <surefire.version>2.22.2</surefire.version>-->
 <!--        <maven.compiler.version>3.7.0</maven.compiler.version>-->
 <!--        <maven.failsafe.version>3.4.0</maven.failsafe.version>-->
@@ -18,6 +21,31 @@
 <!--        <maven.compiler.target>11</maven.compiler.target>-->
          </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json.object.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
