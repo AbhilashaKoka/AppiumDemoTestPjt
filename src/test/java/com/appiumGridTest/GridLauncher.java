@@ -1,5 +1,6 @@
 package com.appiumGridTest;
 import org.testng.annotations.AfterMethod;
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -15,13 +16,11 @@ public class GridLauncher {
     static String ConfigPath ="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
     public static void startAppiumServer() throws InterruptedException, IOException {
-        preLaunchCleanUpSetUp();
         ProcessBuilder processBuilder3 = new ProcessBuilder(
-                "node", appiumMainJs, "--nodeconfig", ConfigPath, "--base-path", "/wd/hub");
-
-//        ProcessBuilder processBuilder3 = new ProcessBuilder(
-//                "appium", "-a", "0.0.0.0", "-p", "4723" );
-        processBuilder3.redirectErrorStream(true);
+                "node", appiumMainJs
+                , "--nodeconfig", ConfigPath
+                , "--base-path", "/wd/hub");
+    processBuilder3.redirectErrorStream(true);
         Process process3 = processBuilder3.start();
         logServerOutput(process3);
         int exitCode3= process3.waitFor();
@@ -37,7 +36,6 @@ public class GridLauncher {
         int exitCode1 = process1.waitFor();
         System.out.println("Process exited with code: " + exitCode1);
         System.out.println("Selenium Server started.");
-
     }
 
     public static void waitForSelenium() throws InterruptedException, IOException {
@@ -49,10 +47,6 @@ public class GridLauncher {
         System.out.println("Selenium Grid is up.");
     }
 
-
-
-
-
     public static void waitForAppium() throws InterruptedException {
         while (isServiceUp("http://0.0.0.0:4723/wd/hub/status")) {
             System.out.println(" Waiting for Appium server...");
@@ -60,8 +54,12 @@ public class GridLauncher {
         }
         System.out.println("Appium server is ready.");
     }
+
+
 //By Using Relay Server-Standalone or node with relay server
     public static void registerAppiumNode(String configPath) throws IOException, InterruptedException {
+        //checkPluginInstalled();
+        //installPlugin("uiautomator2");
         File configFile = new File(configPath);
         if (!configFile.exists()) {
             throw new IOException(" Node config file not found: " + configPath);
@@ -85,9 +83,12 @@ public class GridLauncher {
         }
     }
 
-    public static void stopAppiumServer() {
+    public static void stopAppiumServer(){
                   System.out.println("Appium server stopped.");
             }
+
+
+
     public static void stopSeleniumHub() throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder( "java",
                 "-jar", jarPath,
@@ -97,14 +98,9 @@ public class GridLauncher {
         process.waitFor();
         System.out.println("Selenium Hub stopped.");
     }
-    @Override
-    protected void finalize() throws Throwable {
-        stopAppiumServer();
-        stopSeleniumHub();
-        super.finalize();
-    }
 
-    public static void shutdown() {
+
+     public static void shutdown() {
         stopAppiumServer();
         try {
             stopSeleniumHub();
@@ -115,7 +111,6 @@ public class GridLauncher {
 
     @AfterMethod
     static void killExistingJavaProcesses() throws IOException {
-        shutdown();
         ProcessBuilder processBuilder = new ProcessBuilder("tasklist");
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
@@ -144,13 +139,13 @@ public class GridLauncher {
             }
         }).start();
     }
+
     public static String  getLocalHostAddress(){
         String str=null;
         try {
             InetAddress localAddress = InetAddress.getLocalHost();
             System.out.println("Local IP Address: " + localAddress.getHostAddress());
             str= localAddress.getHostAddress();
-
         } catch (UnknownHostException e) {
             System.err.println("Could not get IP address: " + e.getMessage());
         }
@@ -182,4 +177,59 @@ public class GridLauncher {
             pb.inheritIO().start().waitFor();
         }
     }
+
+    public void startServer() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            runtime.exec("cmd.exe /c start cmd.exe /k \"appium -a 127.0.0.1 -p 4723\"");
+            Thread.sleep(8000);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        Runtime runtime2 = Runtime.getRuntime();
+        try {
+            // Corrected exec usage for starting Selenium server
+            runtime2.exec(new String[] {
+                    "java",
+                    "-jar",
+                    "src/test/resources/driver/selenium-server-4.25.0.jar",
+                    "standalone",
+                    "--config",
+                    "src/test/resources/config/node2.toml"
+            });
+            Thread.sleep(8000);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stopServer() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            runtime.exec("taskkill /F /IM node.exe");
+            runtime.exec("taskkill /F /IM cmd.exe");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void  checkPluginInstalled() throws IOException, InterruptedException {
+        ProcessBuilder processBuilder4 = new ProcessBuilder("appium", "plugin", "list");
+        processBuilder4.redirectErrorStream(true);
+        Process process4 = processBuilder4.start();
+        logServerOutput(process4);
+        int exitCode = process4.waitFor();
+        System.out.println("Process exited with code: " + exitCode);
+    }
+
+    public static void installPlugin(String pluginName) throws IOException, InterruptedException {
+        ProcessBuilder processBuilder5 = new ProcessBuilder("appium", "plugin", "install", pluginName);
+        processBuilder5.redirectErrorStream(true);
+        Process process5 = processBuilder5.start();
+        logServerOutput(process5);
+        int exitCode = process5.waitFor();
+        System.out.println("Process exited with code: " + exitCode);
+    }
+
+
 }

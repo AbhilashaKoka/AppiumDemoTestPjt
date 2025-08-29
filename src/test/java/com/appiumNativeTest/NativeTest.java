@@ -3,6 +3,7 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.SessionId;
 import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
@@ -16,6 +17,11 @@ public class  NativeTest extends NativeBaseSetUp {
 
     public NativeTest() throws MalformedURLException {
         driver = createAndroidDriverforNativeApp();
+        // 🔍 Get the session ID
+        SessionId sessionId = driver.getSessionId();
+        System.out.println("Session ID: " + sessionId.toString());
+
+
     }
 
     @Test
