@@ -1,12 +1,12 @@
 #for server configuration
 [server]
-port = 4444
+port = 5555
 #for node configuration
 [node]
 detect-drivers = false
 #for relay node configuration
 [relay]
-url= "http://localhost:4723/wd/hub"
+url= "http://localhost:4723"
 status-endpoint = "/status"
 #Sterotypes supported by the service
 configs=[

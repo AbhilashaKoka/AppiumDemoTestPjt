@@ -15,27 +15,36 @@ public class GridLauncher {
     static String node2Path ="src/test/resources/config/node2.toml";
     static String ConfigPath ="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
-    public static void startAppiumServer() throws InterruptedException, IOException {
-        ProcessBuilder processBuilder3 = new ProcessBuilder(
-                "node", appiumMainJs
-                , "--nodeconfig", ConfigPath
-                , "--base-path", "/wd/hub");
-    processBuilder3.redirectErrorStream(true);
-        Process process3 = processBuilder3.start();
-        logServerOutput(process3);
-        int exitCode3= process3.waitFor();
-        System.out.println("Process exited with code: " + exitCode3);
-        System.out.println("Appium Server started.");
-}
-
     public static void startSeleniumHub() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder1 = new ProcessBuilder("java","-jar", jarPath,"standalone" ,"--config", node2Path);
-        processBuilder1.redirectErrorStream(true);
+        ProcessBuilder processBuilder1 = new ProcessBuilder("java","-jar", jarPath ,"hub" );
         Process process1 = processBuilder1.start();
         logServerOutput(process1);
         int exitCode1 = process1.waitFor();
         System.out.println("Process exited with code: " + exitCode1);
-        System.out.println("Selenium Server started.");
+        System.out.println("Selenium Grid Hub started.");
+    }
+
+    public static void startAppiumServer() throws InterruptedException, IOException {
+        ProcessBuilder processBuilder2 = new ProcessBuilder(
+                "node", appiumMainJs
+                , "--nodeconfig", ConfigPath
+                , "--base-path", "/wd/hub");
+    processBuilder2.redirectErrorStream(true);
+        Process process2 = processBuilder2.start();
+        logServerOutput(process2);
+        int exitCode2= process2.waitFor();
+        System.out.println("Process exited with code: " + exitCode2);
+        System.out.println("Appium Server started.");
+}
+
+    public static void startSeleniumNode() throws IOException, InterruptedException {
+        ProcessBuilder processBuilder3 = new ProcessBuilder("java","-jar", jarPath,"node" ,"--config", node2Path);
+        processBuilder3.redirectErrorStream(true);
+        Process process3 = processBuilder3.start();
+        logServerOutput(process3);
+        int exitCode3 = process3.waitFor();
+        System.out.println("Process exited with code: " + exitCode3);
+        System.out.println("Selenium Grid Node started.");
     }
 
     public static void waitForSelenium() throws InterruptedException, IOException {
