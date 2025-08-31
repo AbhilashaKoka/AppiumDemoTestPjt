@@ -198,7 +198,7 @@ public class GridLauncher {
         Runtime runtime2 = Runtime.getRuntime();
         try {
             // Corrected exec usage for starting Selenium server
-            runtime2.exec(new String[] {
+            runtime2.exec(new String[]{
                     "java",
                     "-jar",
                     "src/test/resources/driver/selenium-server-4.25.0.jar",

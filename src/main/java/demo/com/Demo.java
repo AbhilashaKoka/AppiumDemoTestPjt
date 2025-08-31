@@ -1,12 +1,11 @@
 package demo.com;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
 import java.net.URL;
-
 import static demo.com.AppiumTest.*;
 
 
@@ -23,6 +22,7 @@ public class Demo {
             //  This command will fail if session expired
             try {
                 driver.getPageSource();
+
             } catch (Exception e) {
                 System.out.println("Session expired due to inactivity: " + e.getMessage());
             }

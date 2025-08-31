@@ -101,21 +101,7 @@ public class AppiumTest {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        Runtime runtime2 = Runtime.getRuntime();
-        try {
-            // Corrected exec usage for starting Selenium server
-            runtime2.exec(new String[] {
-                    "java",
-                    "-jar",
-                    "src/test/resources/driver/selenium-server-4.25.0.jar",
-                    "standalone",
-                    "--config",
-                    "src/test/resources/config/node2.toml"
-            });
-            Thread.sleep(8000);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public static void stopServer() {
