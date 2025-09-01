@@ -1,6 +1,5 @@
 package com.appiumGridTest;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -9,15 +8,16 @@ import java.io.IOException;
 import java.net.URL;
 
 
-public class GridTest extends GridLauncher {
+public class GridTest extends GridLauncher2 {
 
     @BeforeTest
     public void test() throws IOException, InterruptedException {
-        startSeleniumHub();
+  /*      startSeleniumHub();
         startAppiumServer();
         startSeleniumNode();
-
-         //registerAppiumNode(ConfigPath);
+ registerAppiumNode(ConfigPath);*/
+        launchProcesses();
+       // killExistingJavaProcesses();
     }
 
 
@@ -35,7 +35,7 @@ public class GridTest extends GridLauncher {
         caps.setCapability("platformName", "android");
         caps.setCapability("deviceName", "emulator-5554");
         caps.setCapability("automationName", "UIAutomator2");
-        caps.setCapability("platformVersion", "10");
+        caps.setCapability("platformVersion", "14");
         caps.setCapability("browserName", "chrome");
         caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
         caps.setCapability("noReset", true);
@@ -57,7 +57,8 @@ public class GridTest extends GridLauncher {
 
         @AfterTest
          public void tearDown() throws IOException {
-            killExistingJavaProcesses();
+//            killExistingJavaProcesses();
+            System.out.println("Test completed.");
     }
 
 

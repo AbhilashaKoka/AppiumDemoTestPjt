@@ -2,6 +2,7 @@ package com.appiumHybridTest;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.net.MalformedURLException;
 
@@ -12,7 +13,8 @@ public class BrowserTest extends BrowserBaseSetUp {
     private static final long serialVersionUID = 1L;
      AndroidDriver driver;
 
-    public BrowserTest() throws MalformedURLException {
+     @BeforeMethod
+    public void startBrowserTest() throws MalformedURLException {
       driver = createAndroidDriver();
     }
 

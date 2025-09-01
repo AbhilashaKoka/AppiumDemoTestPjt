@@ -3,9 +3,15 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
@@ -17,7 +23,7 @@ public class BrowserBaseSetUp {
     static String appiumMainJs = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
 
 
-@BeforeMethod
+   @BeforeClass
     public void startServer() throws  MalformedURLException {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         builder.withIPAddress("127.0.0.1"); // Or use .usingAnyFreePort()
@@ -45,7 +51,7 @@ public class BrowserBaseSetUp {
         return driver;
     }
 
-@AfterMethod
+@AfterClass
     public static void stopAppiumServer() {
         if (service != null && service.isRunning()) {
             service.stop();
@@ -63,9 +69,9 @@ public class BrowserBaseSetUp {
             caps.setCapability("platformName", "android");
             caps.setCapability("deviceName", "emulator-5554");
             caps.setCapability("automationName", "UIAutomator2");
-            caps.setCapability("platformVersion", "10");
+            caps.setCapability("platformVersion", "14");
             caps.setCapability("browserName", "chrome");
-            caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
+            caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver-win32_139.0.7258.143\\chromedriver.exe");
             caps.setCapability("noReset", true);
             return caps;
         } catch (Exception ex) {
@@ -73,6 +79,12 @@ public class BrowserBaseSetUp {
         }
     }
 
-
+    public boolean isChromeInstalled(String deviceId) throws IOException {
+        ProcessBuilder builder = new ProcessBuilder("adb", "-s", deviceId, "shell", "pm", "list", "packages");
+        Process process = builder.start();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            return reader.lines().anyMatch(line -> line.contains("com.android.chrome"));
+        }
+    }
 
 }

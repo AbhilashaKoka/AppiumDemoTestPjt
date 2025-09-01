@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.SessionId;
 import org.testng.annotations.Test;
-
 import java.net.MalformedURLException;
 
 
