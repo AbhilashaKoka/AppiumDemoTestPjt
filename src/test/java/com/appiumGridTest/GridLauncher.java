@@ -19,7 +19,7 @@ public class GridLauncher {
         logServerOutput(HubProcess);
         int exitCode1 = HubProcess.waitFor();
         System.out.println("Process exited with code: " + exitCode1);
-        System.out.println("Selenium Grid Hub started.");
+        System.out.println("Hub started.");
     }
 
     public static void startAppiumServer() throws InterruptedException, IOException {
@@ -29,7 +29,7 @@ public class GridLauncher {
         logServerOutput(AppiumProcess);
         int exitCode2= AppiumProcess.waitFor();
         System.out.println("Process exited with code: " + exitCode2);
-        System.out.println("Appium Server started.");
+        System.out.println("Appium started.");
 }
 
     public static void startSeleniumNode() throws IOException, InterruptedException {
@@ -39,23 +39,23 @@ public class GridLauncher {
         logServerOutput(NodeProcess);
         int exitCode3 = NodeProcess.waitFor();
         System.out.println("Process exited with code: " + exitCode3);
-        System.out.println("Selenium Grid Node started.");
+        System.out.println("Node started.");
     }
 
     public static void waitForSelenium() throws InterruptedException, IOException {
-        while (isServiceUp("http://localhost:4444/status")){
-            System.out.println("Waiting for Selenium server...");
+        while (!isServiceUp("http://localhost:4444/status")){
+            System.out.println("Waiting for Hub...");
             Thread.sleep(1000);
                    }
-        System.out.println("Selenium Grid is up.");
+        System.out.println("Hub is up.");
     }
 
     public static void waitForAppium() throws InterruptedException {
-        while (isServiceUp("http://0.0.0.0:4723/wd/hub/status")) {
-            System.out.println(" Waiting for Appium server...");
+        while (!isServiceUp("http://0.0.0.0:4723/wd/hub/status")) {
+            System.out.println(" Waiting for Appium.......");
             Thread.sleep(1000);
         }
-        System.out.println("Appium server is ready.");
+        System.out.println("Appium is ready.");
     }
 
 
