@@ -1,6 +1,6 @@
 package com.appiumGridTest;
 import org.testng.annotations.AfterMethod;
-import javax.swing.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -9,14 +9,13 @@ import java.net.*;
 
 
 public class GridLauncher {
-    static String jarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
-    static String appiumMainJs = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
-    static String node1Path = "src/test/resources/config/node-2.toml";
-    static String node2Path ="src/test/resources/config/node-1.toml";
-    static String ConfigPath ="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
+    static String SeleniumGridJar = "src/test/resources/driver/selenium-server-4.25.0.jar";
+    static String nodePath = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
+    static String device2Config = "src/test/resources/config/node-2.toml";
+    static String device1Config ="src/test/resources/config/node-1.toml";
 
     public static void startSeleniumHub() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder1 = new ProcessBuilder("java","-jar", jarPath ,"hub" );
+        ProcessBuilder processBuilder1 = new ProcessBuilder("java","-jar", SeleniumGridJar,"hub" );
         Process process1 = processBuilder1.start();
         logServerOutput(process1);
         int exitCode1 = process1.waitFor();
@@ -25,11 +24,8 @@ public class GridLauncher {
     }
 
     public static void startAppiumServer() throws InterruptedException, IOException {
-        ProcessBuilder processBuilder2 = new ProcessBuilder(
-                "node", appiumMainJs
-                , "--nodeconfig", ConfigPath
-                , "--base-path", "/wd/hub");
-    processBuilder2.redirectErrorStream(true);
+        ProcessBuilder processBuilder2 = new ProcessBuilder("node", nodePath , "--base-path", "/wd/hub");
+        processBuilder2.redirectErrorStream(true);
         Process process2 = processBuilder2.start();
         logServerOutput(process2);
         int exitCode2= process2.waitFor();
@@ -38,7 +34,7 @@ public class GridLauncher {
 }
 
     public static void startSeleniumNode() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder3 = new ProcessBuilder("java","-jar", jarPath,"node" ,"--config", node2Path);
+        ProcessBuilder processBuilder3 = new ProcessBuilder("java","-jar", SeleniumGridJar,"node" ,"--config", device1Config);
         processBuilder3.redirectErrorStream(true);
         Process process3 = processBuilder3.start();
         logServerOutput(process3);
@@ -65,22 +61,6 @@ public class GridLauncher {
     }
 
 
-//By Using Relay Server-Standalone or node with relay server
-    public static void registerAppiumNode(String configPath) throws IOException, InterruptedException {
-        //checkPluginInstalled();
-        //installPlugin("uiautomator2");
-        File configFile = new File(configPath);
-        if (!configFile.exists()) {
-            throw new IOException(" Node config file not found: " + configPath);
-        }
-        ProcessBuilder builder = new ProcessBuilder("java", "-jar", jarPath, "node", "--config", "src/test/resources/config/nodeConfig.json");
-        builder.redirectErrorStream(true);
-        Process process4 = builder.start();
-        logServerOutput(process4);
-        int exitCode4 = process4.waitFor();
-        System.out.println("Process exited with code: " + exitCode4);
-        System.out.println("Appium node registered with Selenium Grid.");
-    }
 
     public static boolean isServiceUp(String url) {
         try {
@@ -100,7 +80,7 @@ public class GridLauncher {
 
     public static void stopSeleniumHub() throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder( "java",
-                "-jar", jarPath,
+                "-jar", SeleniumGridJar,
                  "stop");
         processBuilder.inheritIO();
         Process process = processBuilder.start();

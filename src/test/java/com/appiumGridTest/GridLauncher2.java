@@ -7,19 +7,18 @@ import java.util.Arrays;
 import java.util.List;
 
     public class GridLauncher2 {
-        static String jarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
-        static String appiumMainJs = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
+        static String SeleniumGridJar = "src/test/resources/driver/selenium-server-4.25.0.jar";
+        static String nodePath = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
         static String device2Config = "src/test/resources/config/node-2.toml";
         static String device1Config ="src/test/resources/config/node-1.toml";
-        static String ConfigPath ="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
 
-        public List<List<String>> buildCommandList(String jarPath, String appiumMainJs, String configPath, String node2Path) {
+        public List<List<String>> buildCommandList(String jarPath, String appiumMainJs,String node2Path) {
             List<List<String>> commands = new ArrayList<>();
             // Command to start Selenium Grid hub
             commands.add(Arrays.asList("java", "-jar", jarPath, "hub"));
             // Command to start Appium node with config
-            commands.add(Arrays.asList("node", appiumMainJs, "--nodeconfig", configPath));
+             commands.add(Arrays.asList("node", appiumMainJs, "--base-path", "/wd/hub"));
             // Command to start Selenium Grid node
             commands.add(Arrays.asList("java", "-jar", jarPath, "node", "--config", node2Path));
             return commands;
@@ -27,7 +26,7 @@ import java.util.List;
 
 
         public void launchProcesses() {
-            List<List<String>> commandList= buildCommandList(jarPath, appiumMainJs, ConfigPath, device1Config);
+            List<List<String>> commandList= buildCommandList(SeleniumGridJar, nodePath, device1Config);
             System.out.println("Starting processes...");
             for (List<String> command : commandList) {
                 try {

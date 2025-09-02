@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 public class ParallelGridLauncher {
 
     public static void main(String[] args) {
-        ExecutorService executor = Executors.newFixedThreadPool(4); // Adjust thread count as needed
+        ExecutorService executor = Executors.newFixedThreadPool(3); // Adjust thread count as needed
 
         executor.submit(() -> {
             try {
@@ -32,13 +32,7 @@ public class ParallelGridLauncher {
             }
         });
 
-        executor.submit(() -> {
-            try {
-                GridLauncher.registerAppiumNode(GridLauncher.ConfigPath);
-            } catch (Exception e) {
-                System.err.println("Error registering Appium Node: " + e.getMessage());
-            }
-        });
+
 
         executor.shutdown(); // Optional: wait for all tasks to complete
     }
