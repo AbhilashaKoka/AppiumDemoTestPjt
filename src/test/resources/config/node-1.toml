@@ -19,3 +19,6 @@ driver-configuration = [
 
 [session-timeout]
 timeout = 300
+
+[node.registration]
+hub = "http://192.168.1.3:4444"

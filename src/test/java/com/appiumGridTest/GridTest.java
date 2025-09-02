@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.net.URL;
 
 
-public class GridTest extends GridLauncher {
+public class GridTest extends GridLauncher2 {
 
     @BeforeTest
     public void test() throws IOException, InterruptedException {
-       startSeleniumHub();
+    /*   startSeleniumHub();
         startAppiumServer();
-        startSeleniumNode();
+        startSeleniumNode();*/
 
-    /*  launchProcesses();
-     killExistingJavaProcesses();*/
+    launchProcesses();
+     killExistingJavaProcesses();
     }
 
 
@@ -43,7 +43,7 @@ public class GridTest extends GridLauncher {
 
 
         // Point to Selenium Grid hub, which routes to Appium node
-        URL gridUrl = new URL("http://127.0.0.1:4444/wd/hub");
+        URL gridUrl = new URL("http://192.168.1.3:4444");
         AndroidDriver driver = new AndroidDriver(gridUrl, caps);
 
         System.out.println("Driver initialized successfully: " + driver.getCapabilities().getBrowserName());

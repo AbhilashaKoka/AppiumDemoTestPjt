@@ -5,7 +5,7 @@ port = 5555
 detect-drivers = false
 
 [relay]
-url= "http://localhost:4723/wd/hub"
+url= "http://localhost:4723"
 status-endpoint = "/status"
 #se
 configs=[
@@ -18,3 +18,6 @@ driver-configuration = [
 
 [session-timeout]
 timeout = 300
+
+[node.registration]
+hub = "http://192.168.1.3:4444"

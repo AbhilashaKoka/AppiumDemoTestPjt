@@ -1,0 +1,7 @@
+# appium1.yml
+server:
+  port: 4723
+  use-drivers:
+    - uiautomator2 # For Android
+  default-capabilities:
+    systemPort: 8200

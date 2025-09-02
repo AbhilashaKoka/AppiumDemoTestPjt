@@ -11,16 +11,21 @@ import java.util.List;
         static String nodePath = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
         static String device2Config = "src/test/resources/config/node-2.toml";
         static String device1Config ="src/test/resources/config/node-1.toml";
+       static String appiumConfig= "src/test/resources/config/appium.yml";
+     static String appiumPath=  "C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\appium";
+     //  " C:\Users\Abhilasha\AppData\Roaming\npm\appium.cmd";
 
-
-        public List<List<String>> buildCommandList(String jarPath, String appiumMainJs,String node2Path) {
+        public List<List<String>> buildCommandList(String jarPath, String nodeServerPath, String nodeDeviceConfig) {
             List<List<String>> commands = new ArrayList<>();
             // Command to start Selenium Grid hub
-            commands.add(Arrays.asList("java", "-jar", jarPath, "hub"));
+            commands.add(Arrays.asList("java", "-jar", jarPath, "hub","--host","192.168.1.3","--port", "4444"));
             // Command to start Appium node with config
-             commands.add(Arrays.asList("node", appiumMainJs, "--base-path", "/wd/hub"));
-            // Command to start Selenium Grid node
-            commands.add(Arrays.asList("java", "-jar", jarPath, "node", "--config", node2Path));
+           //commands.add(Arrays.asList("node", nodeServerPath, "--base-path", "/wd/hub"));
+           // commands.add(Arrays.asList(appiumPath, "appium",  "--config", appiumConfig));
+           commands.add(Arrays.asList("cmd.exe", "/c", appiumPath, "server", "--address","127.0.0.1", "--port 4723", "--base-path", "/wd/hub"));
+
+           // Command to start Selenium Grid node
+            commands.add(Arrays.asList("java", "-jar", jarPath, "node", "--config", nodeDeviceConfig));
             return commands;
         }
 
