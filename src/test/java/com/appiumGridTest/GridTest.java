@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.net.URL;
 
 
-public class GridTest extends GridLauncher2 {
+public class GridTest extends GridLauncher {
 
     @BeforeTest
     public void test() throws IOException, InterruptedException {
-    /*   startSeleniumHub();
+       startSeleniumHub();
         startAppiumServer();
         startSeleniumNode();
- registerAppiumNode(ConfigPath);*/
-      launchProcesses();
-     killExistingJavaProcesses();
+
+    /*  launchProcesses();
+     killExistingJavaProcesses();*/
     }
 
 

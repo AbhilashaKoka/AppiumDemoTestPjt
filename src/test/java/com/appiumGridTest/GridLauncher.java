@@ -17,8 +17,8 @@ public class GridLauncher {
         ProcessBuilder HubStarter = new ProcessBuilder("java","-jar", SeleniumGridJar,"hub" );
         Process HubProcess = HubStarter.start();
         logServerOutput(HubProcess);
-        int exitCode1 = HubProcess.waitFor();
-        System.out.println("Process exited with code: " + exitCode1);
+        int HubexitCode = HubProcess.waitFor();
+        System.out.println("Process exited with code: " + HubexitCode);
         System.out.println("Hub started.");
     }
 
@@ -27,8 +27,8 @@ public class GridLauncher {
         AppiumStarter.redirectErrorStream(true);
         Process AppiumProcess = AppiumStarter.start();
         logServerOutput(AppiumProcess);
-        int exitCode2= AppiumProcess.waitFor();
-        System.out.println("Process exited with code: " + exitCode2);
+        int AppiumexitCode = AppiumProcess.waitFor();
+        System.out.println("Process exited with code: " + AppiumexitCode);
         System.out.println("Appium started.");
 }
 
@@ -37,12 +37,12 @@ public class GridLauncher {
         NodeStarter.redirectErrorStream(true);
         Process NodeProcess = NodeStarter.start();
         logServerOutput(NodeProcess);
-        int exitCode3 = NodeProcess.waitFor();
-        System.out.println("Process exited with code: " + exitCode3);
+        int NodexitCode = NodeProcess.waitFor();
+        System.out.println("Process exited with code: " + NodexitCode);
         System.out.println("Node started.");
     }
 
-    public static void waitForSelenium() throws InterruptedException, IOException {
+    public static void waitForHub() throws InterruptedException, IOException {
         while (!isServiceUp("http://localhost:4444/status")){
             System.out.println("Waiting for Hub...");
             Thread.sleep(1000);
@@ -58,6 +58,13 @@ public class GridLauncher {
         System.out.println("Appium is ready.");
     }
 
+    public static void waitForNode() throws InterruptedException, IOException {
+        while (!isServiceUp("http://localhost:5555/status")){
+            System.out.println("Waiting for Node...");
+            Thread.sleep(1000);
+        }
+        System.out.println("Node is up.");
+    }
 
 
     public static boolean isServiceUp(String url) {
