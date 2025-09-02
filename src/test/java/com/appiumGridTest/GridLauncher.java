@@ -47,8 +47,7 @@ public class GridLauncher {
         while (isServiceUp("http://localhost:4444/status")){
             System.out.println("Waiting for Selenium server...");
             Thread.sleep(1000);
-            stopSeleniumHub();
-        }
+                   }
         System.out.println("Selenium Grid is up.");
     }
 
@@ -72,31 +71,6 @@ public class GridLauncher {
         }
     }
 
-    public static void stopAppiumServer(){
-                  System.out.println("Appium server stopped.");
-            }
-
-
-
-    public static void stopSeleniumHub() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder( "java",
-                "-jar", SeleniumGridJar,
-                 "stop");
-        processBuilder.inheritIO();
-        Process process = processBuilder.start();
-        process.waitFor();
-        System.out.println("Selenium Hub stopped.");
-    }
-
-
-     public static void shutdown() {
-        stopAppiumServer();
-        try {
-            stopSeleniumHub();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     @AfterMethod
     static void killExistingJavaProcesses() throws IOException {
@@ -167,40 +141,6 @@ public class GridLauncher {
         }
     }
 
-    public void startServer() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            runtime.exec("cmd.exe /c start cmd.exe /k \"appium -a 127.0.0.1 -p 4723\"");
-            Thread.sleep(8000);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        Runtime runtime2 = Runtime.getRuntime();
-        try {
-            // Corrected exec usage for starting Selenium server
-            runtime2.exec(new String[]{
-                    "java",
-                    "-jar",
-                    "src/test/resources/driver/selenium-server-4.25.0.jar",
-                    "standalone",
-                    "--config",
-                    "src/test/resources/config/node-1.toml"
-            });
-            Thread.sleep(8000);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void stopServer() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            runtime.exec("taskkill /F /IM node.exe");
-            runtime.exec("taskkill /F /IM cmd.exe");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void  checkPluginInstalled() throws IOException, InterruptedException {
         ProcessBuilder processBuilder4 = new ProcessBuilder("appium", "plugin", "list");
