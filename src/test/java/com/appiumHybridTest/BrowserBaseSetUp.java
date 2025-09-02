@@ -4,10 +4,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +16,7 @@ import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPA
 public class BrowserBaseSetUp {
 
     static AppiumDriverLocalService service = null;
-   AndroidDriver driver;
+    AndroidDriver driver;
     static String appiumMainJs = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
 
 
@@ -71,7 +68,7 @@ public class BrowserBaseSetUp {
             caps.setCapability("automationName", "UIAutomator2");
             caps.setCapability("platformVersion", "14");
             caps.setCapability("browserName", "chrome");
-            caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver-win32_139.0.7258.143\\chromedriver.exe");
+            caps.setCapability("chromedriverExecutable", "C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_113.0.5672.63\\chromedriver.exe");
             caps.setCapability("noReset", true);
             return caps;
         } catch (Exception ex) {
@@ -84,6 +81,20 @@ public class BrowserBaseSetUp {
         Process process = builder.start();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             return reader.lines().anyMatch(line -> line.contains("com.android.chrome"));
+        }
+    }
+    public void checkVersionOfBrowser() throws IOException {
+        ProcessBuilder builder=new ProcessBuilder("adb","-s","emulator-5554","shell","dumpsys package","com.android.chrome"," |"," findstr versionName");
+         Process process = builder.start();
+         BufferedReader reader=new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        try {
+            while ((line=reader.readLine())!=null)
+            {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -11,8 +11,8 @@ import java.net.*;
 public class GridLauncher {
     static String jarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
     static String appiumMainJs = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
-    static String node1Path = "src/test/resources/config/node-relay.toml";
-    static String node2Path ="src/test/resources/config/node2.toml";
+    static String node1Path = "src/test/resources/config/node-2.toml";
+    static String node2Path ="src/test/resources/config/node-1.toml";
     static String ConfigPath ="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
     public static void startSeleniumHub() throws IOException, InterruptedException {
@@ -204,7 +204,7 @@ public class GridLauncher {
                     "src/test/resources/driver/selenium-server-4.25.0.jar",
                     "standalone",
                     "--config",
-                    "src/test/resources/config/node2.toml"
+                    "src/test/resources/config/node-1.toml"
             });
             Thread.sleep(8000);
         } catch (IOException | InterruptedException e) {

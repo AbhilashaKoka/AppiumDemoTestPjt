@@ -9,8 +9,8 @@ import java.util.List;
     public class GridLauncher2 {
         static String jarPath = "src/test/resources/driver/selenium-server-4.25.0.jar";
         static String appiumMainJs = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
-        static String node1Path = "src/test/resources/config/node-relay.toml";
-        static String node2Path ="src/test/resources/config/node2.toml";
+        static String device2Config = "src/test/resources/config/node-2.toml";
+        static String device1Config ="src/test/resources/config/node-1.toml";
         static String ConfigPath ="C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\IdeaProjects\\mobdemoprjt\\src\\test\\resources\\config\\nodeConfig.json";
 
 
@@ -27,7 +27,7 @@ import java.util.List;
 
 
         public void launchProcesses() {
-            List<List<String>> commandList= buildCommandList(jarPath, appiumMainJs, ConfigPath, node2Path);
+            List<List<String>> commandList= buildCommandList(jarPath, appiumMainJs, ConfigPath, device1Config);
             System.out.println("Starting processes...");
             for (List<String> command : commandList) {
                 try {
