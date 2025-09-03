@@ -12,11 +12,7 @@ public class GridTest extends GridLauncher2 {
 
     @BeforeTest
     public void test() throws IOException, InterruptedException {
-    /*   startSeleniumHub();
-        startAppiumServer();
-        startSeleniumNode();*/
-
-    launchProcesses();
+     launchProcesses();
      killExistingJavaProcesses();
     }
 

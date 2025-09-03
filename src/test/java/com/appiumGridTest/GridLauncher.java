@@ -12,6 +12,8 @@ public class GridLauncher {
     static String nodePath = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
     static String device2Config = "src/test/resources/config/node-2.toml";
     static String device1Config ="src/test/resources/config/node-1.toml";
+    static String appiumPath=  "C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\appium";
+    //  " C:\Users\Abhilasha\AppData\Roaming\npm\appium.cmd";
 
     public static void startSeleniumHub() throws IOException, InterruptedException {
         ProcessBuilder HubStarter = new ProcessBuilder("java","-jar", SeleniumGridJar,"hub" );
@@ -23,7 +25,8 @@ public class GridLauncher {
     }
 
     public static void startAppiumServer() throws InterruptedException, IOException {
-        ProcessBuilder AppiumStarter = new ProcessBuilder("node", nodePath , "--base-path", "/wd/hub");
+       ProcessBuilder AppiumStarter = new ProcessBuilder("node", nodePath , "--base-path", "/wd/hub");
+        //ProcessBuilder AppiumStarter = new ProcessBuilder("cmd.exe", "/c", appiumPath, "server", "--address","127.0.0.1", "--port 4723", "--base-path", "/wd/hub");
         AppiumStarter.redirectErrorStream(true);
         Process AppiumProcess = AppiumStarter.start();
         logServerOutput(AppiumProcess);
