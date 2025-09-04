@@ -6,7 +6,7 @@ port = 5555
 detect-drivers = false
 #for relay node configuration
 [relay]
-url= "http://localhost:4723"
+url= "http://localhost:4722"
 status-endpoint = "/status"
 #Sterotypes supported by the service
 configs=[

@@ -1,6 +1,5 @@
 package com.appiumGridTest;
 import org.testng.annotations.AfterMethod;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

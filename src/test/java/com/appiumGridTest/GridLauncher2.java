@@ -6,33 +6,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-    public class GridLauncher2 {
-        static String SeleniumGridJar = "src/test/resources/driver/selenium-server-4.25.0.jar";
-        static String nodePath = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
-        static String device2Config = "src/test/resources/config/node-2.toml";
-        static String device1Config ="src/test/resources/config/node-1.toml";
+public class GridLauncher2 {
+       static String SeleniumGridJar = "src/test/resources/driver/selenium-server-4.25.0.jar";
+       static String nodePath = "C:/Users/Abhilasha/AppData/Roaming/npm/node_modules/appium/build/lib/main.js";
+       static String device2Config = "src/test/resources/config/node-2.toml";
+       static String device1Config ="src/test/resources/config/node-1.toml";
        static String appiumConfig= "src/test/resources/config/appium.yml";
        static String appiumPath=  "C:\\Users\\Abhilasha\\AppData\\Roaming\\npm\\appium";
-     //  " C:\Users\Abhilasha\AppData\Roaming\npm\appium.cmd";
 
-        public List<List<String>> buildCommandList(String jarPath, String nodeServerPath, String nodeDeviceConfig) {
+
+        public List<List<String>> buildCommandList(String jarPath, String nodeServerPath, String nodeDeviceConfig, String nodeDeviceConfig2) {
             List<List<String>> commands = new ArrayList<>();
             // Command to start Selenium Grid hub
             commands.add(Arrays.asList("java", "-jar", jarPath, "hub","--host","192.168.1.3","--port", "4444"));
             // Command to start Appium node with config
            //commands.add(Arrays.asList("node", nodeServerPath, "--base-path", "/wd/hub"));
-           // commands.add(Arrays.asList(appiumPath, "appium",  "--config", appiumConfig));
-          //  commands.add(Arrays.asList("cmd.exe", "/c", appiumPath, "server", "--address","127.0.0.1", "--port 4723", "--base-path", "/wd/hub"));
           // Command to start Selenium Grid node
             commands.add(Arrays.asList("java", "-jar", jarPath, "node", "--config", nodeDeviceConfig));
+            commands.add(Arrays.asList("java", "-jar", jarPath, "node", "--config", nodeDeviceConfig2));
             return commands;
         }
 
 
         public void launchProcesses() {
-            List<List<String>> commandList= buildCommandList(SeleniumGridJar, nodePath, device1Config);
+            List<List<String>> commandList= buildCommandList(SeleniumGridJar, nodePath, device1Config,device2Config);
             System.out.println("Starting processes...");
             startServer();
+            startServer2();
             for (List<String> command : commandList) {
                 try {
                     ProcessBuilder builder = new ProcessBuilder(command);
@@ -68,7 +68,20 @@ import java.util.List;
         public static void startServer() {
             Runtime runtime = Runtime.getRuntime();
             try {
-                runtime.exec("cmd.exe /c start cmd.exe /k \"appium -a 127.0.0.1 -p 4723\"");
+               runtime.exec("cmd.exe /c start cmd.exe /k \"appium -a 127.0.0.1 -p 4723\"");
+            //    runtime.exec("cmd.exe /c start cmd.exe /k \"appium --config "+appiumConfig+"\"");
+                Thread.sleep(8000);
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        public static void startServer2() {
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec("cmd.exe /c start cmd.exe /k \"appium -a 127.0.0.1 -p 4722\"");
                 Thread.sleep(8000);
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();

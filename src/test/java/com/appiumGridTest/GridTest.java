@@ -11,9 +11,10 @@ import java.net.URL;
 public class GridTest extends GridLauncher2 {
 
     @BeforeTest
-    public void test() throws IOException, InterruptedException {
+    public void test() throws Exception {
      launchProcesses();
-     killExistingJavaProcesses();
+
+    // killExistingJavaProcesses();
     }
 
 
@@ -24,7 +25,6 @@ public class GridTest extends GridLauncher2 {
 //        capabilites.setUdid("emulator-5554");
 //        capabilites.setAutomationName("UIAutomator2");
 //        capabilites.setPlatformVersion("10");
-//
 //        capabilites.setChromedriverExecutable("C:\\Users\\Abhilasha\\Documents\\DOCUMENT\\StudyDocumentFolder\\IDE\\APPIUMSetUp\\drivers\\chromedriver_74\\chromedriver.exe");
 //        capabilites.setNoReset(true);
         DesiredCapabilities caps = new DesiredCapabilities();
@@ -41,7 +41,6 @@ public class GridTest extends GridLauncher2 {
         // Point to Selenium Grid hub, which routes to Appium node
         URL gridUrl = new URL("http://192.168.1.3:4444");
         AndroidDriver driver = new AndroidDriver(gridUrl, caps);
-
         System.out.println("Driver initialized successfully: " + driver.getCapabilities().getBrowserName());
         driver.get("https://www.google.com");
         driver.findElement(By.name("q")).sendKeys("Automation");

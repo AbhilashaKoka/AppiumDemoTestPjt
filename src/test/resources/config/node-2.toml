@@ -1,5 +1,5 @@
 [server]
-port = 5555
+port = 5554
 
 [node]
 detect-drivers = false
